@@ -1,4 +1,5 @@
 .home-navbar {
+  position: relative;
   width: 100%;
   height: 773px;
   display: flex;
@@ -6,10 +7,12 @@
 }
 
 .home-navbar .navbar-container {
+  position: relative;
   height: 642px;
 }
 
 .home-navbar .navbar-container .menu {
+  position: relative;
   height: 100;
   width: 1440px;
   padding: 28px 130px;
@@ -71,7 +74,8 @@
 }
 
 .home-navbar .navbar-container .header-frame {
-  margin-top: 142px;
+  position: relative;
+  margin-top: 60px;
   height: 462px;
   display: flex;
   flex-direction: row;
@@ -92,44 +96,17 @@
   font-weight: 500;
   line-height: normal;
   letter-spacing: -0.75px;
-  color: #f8f8ff;
 }
 
 .home-navbar .navbar-container .header-frame .detail .wel-txt {
   width: 510px;
   height: 42px;
-  font-size: 36px;
-  font-family: "Roboto Serif";
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.54px;
-  color: #d7b686;
-}
-
-.home-navbar .navbar-container .header-frame .detail .wel-txt {
-  width: 510px;
-  height: 42px;
-  font-size: 36px;
-  font-family: "Roboto Serif";
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.54px;
-  color: #d7b686;
-}
-
-.home-navbar .navbar-container .header-frame .detail .service-txt {
-  margin-top: 23px;
-  width: 153px;
-  height: 23px;
   font-size: 20px;
   font-family: "Roboto Serif";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 200;
   line-height: normal;
-  letter-spacing: -0.3px;
-  color: #d5d5d5;
+  letter-spacing: -0.54px;
 }
 
 .home-navbar .navbar-container .header-frame .detail .signup {
@@ -149,16 +126,20 @@
   color: #f8f8ff;
 }
 .home-navbar .navbar-container .logo-frame {
-  margin-top: 43px;
-  width: 690px;
-  height: 419px;
+  position: relative;
+  width: 944px;
+  height: 500px;
+}
+.home-navbar .navbar-container .logo-frame .logo-img {
+  margin-top: -50px; /* lifts the image up */
 }
 .home-navbar .navbar-container .logo-frame .logo-img {
   width: 100%;
-  height: 100%;
+  height: auto; /* keep natural height */
   background-size: contain;
   background-repeat: no-repeat;
-  filter: invert(20%);
+  position: absolute; /* allow moving it */
+  top: 0; /* move image higher */
 }
 
 .other-navbar {
@@ -206,7 +187,7 @@
 }
 
 .other-navbar .hover-line a {
-  color: #f8f8ff;
+  color: var(--Primary-Color-Dark-Blue, #003459);
   z-index: 100;
 }
 
@@ -219,7 +200,7 @@
 .other-navbar .hover-line::after {
   display: block;
   content: "";
-  border-bottom: solid 2px #d7b686;
+  border-bottom: solid 2px blue;
   transform: scaleX(0);
   transition: transform 250ms ease-in-out;
 }

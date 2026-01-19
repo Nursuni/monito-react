@@ -28,7 +28,7 @@ export default function Basket(props: BasketProps) {
   const history = useHistory();
   const itemsPrice = cartItems.reduce(
     (a: number, c: CartItem) => a + c.quantity * c.price,
-    0
+    0,
   );
   const shippingCost = itemsPrice < 100 ? 5 : 0;
   const totalPrice = (itemsPrice + shippingCost).toFixed(1);
@@ -72,8 +72,24 @@ export default function Basket(props: BasketProps) {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <Badge badgeContent={cartItems.length} color="secondary">
-          <img src={"/icons/shopping-cart.svg"} />
+        <Badge
+          badgeContent={cartItems.length}
+          color="secondary"
+          sx={{
+            "& .MuiBadge-badge": {
+              minWidth: 20,
+              height: 25,
+              fontSize: 20,
+              top: 4,
+              right: 4,
+            },
+          }}
+        >
+          <img
+            src={"/icons/cart-icon-cat.png"}
+            alt="cart"
+            style={{ width: 30, height: 30 }} // shrink icon
+          />
         </Badge>
       </IconButton>
       <Menu

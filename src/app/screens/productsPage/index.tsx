@@ -1,9 +1,10 @@
 import React from "react";
-import { Container } from "@mui/material";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import ChosenProduct from "./ChosenProduct";
 import Products from "./Products";
 import { CartItem } from "../../../lib/types/search";
+
+import UsefulKnowledge from "./UsefulKnowledge";
 
 interface ProductsPageProps {
   cartItems: CartItem[];
@@ -31,6 +32,7 @@ export default function ProductsPage(props: ProductsPageProps) {
             onDelete={onDelete}
             onDeleteAll={onDeleteAll}
           />
+          <UsefulKnowledge />
         </Route>
       </Switch>
     </div>

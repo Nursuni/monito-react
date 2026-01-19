@@ -1,13 +1,9 @@
 import React, { useEffect } from "react";
-import { Container } from "@mui/material";
 import Statistics from "./Statistics";
-import PopularDishes from "./PopularDishes";
-import NewDishes from "./NewDishes";
 import Advertisement from "./Advertisement";
 import Events from "./Events";
 import ActiveUsers from "./ActiveUsers";
 import "../../../css/home.css";
-
 import { useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { setNewDishes, setPopularDishes, setTopUsers } from "./slice";
@@ -16,6 +12,9 @@ import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 import MemberService from "../../services/MemberService";
 import { Member } from "../../../lib/types/member";
+import SeeApp from "./SeeApp";
+import NewProducts from "./NewProducts";
+import PopularProducts from "./PopularProducts";
 
 /**REDUX SLICE & SELECTOR */
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -25,9 +24,8 @@ const actionDispatch = (dispatch: Dispatch) => ({
 });
 
 export default function HomePage() {
-  const { setPopularDishes, setNewDishes, setTopUsers } = actionDispatch(
-    useDispatch()
-  );
+  const { setPopularDishes, setNewDishes, setTopUsers } =
+    actionDispatch(useDispatch());
 
   useEffect(() => {
     //Backend server data request => Data
@@ -63,11 +61,12 @@ export default function HomePage() {
 
   return (
     <div className="homepage">
-      <Statistics />
-      <PopularDishes />
-      <NewDishes />
+      <PopularProducts />
+      <NewProducts />
       <Advertisement />
       <ActiveUsers />
+      <SeeApp />
+      <Statistics />
       <Events />
     </div>
   );

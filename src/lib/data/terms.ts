@@ -1,6 +1,6 @@
 export const terms = [
-	'Making orders from the site is complete, live register to use communications you must pass.',
-	'This is why you cannot cancel your orders once you have paid for them check before making payments.',
-	'It is not possible to write and distribute personal ads without the permission of the admin.',
-	'All your actions are under the control of our restaurant administration, so please follow the general rules.',
+  "Placing orders on our site is final, so please review your cart carefully before checkout.",
+  "Once a payment is made, it is not possible to cancel or return the order unless otherwise stated.",
+  "Posting personal ads or content related to pets requires the permission of Monito Pets Shop administration.",
+  "All activities on our site are monitored by Monito Pets Shop staff, so please follow our community guidelines.",
 ];

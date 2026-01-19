@@ -104,7 +104,7 @@ export default function Products(props: ProductsProps) {
           <Stack className="avatar-big-box">
             <Stack className={"category-title"}>
               {" "}
-              <p> Burak Restaurant </p>
+              <p> Monito </p>
               <Stack className="single-search-big-box">
                 <input
                   type="search"
@@ -283,7 +283,7 @@ export default function Products(props: ProductsProps) {
                           }}
                         >
                           <img
-                            src="/icons/shopping-cart.svg"
+                            src="/icons/cart-icon-cat.png"
                             alt="Add to Cart"
                             style={{ width: "24px", height: "20px" }}
                           />
@@ -346,8 +346,8 @@ export default function Products(props: ProductsProps) {
       </Container>
       <div className="brand-logo">
         <Container className="family-brands">
-          <Box className="category-title">Our Family Brands</Box>
-
+          <Box className="category-title">Proud to be part of Pet Sellers</Box>
+          <Box> View all our sellers</Box>
           <Stack
             className="brand-list"
             direction="row"
@@ -355,35 +355,29 @@ export default function Products(props: ProductsProps) {
             alignItems="center"
             spacing={11}
           >
-            <Box className="review-box">
-              <img src="/img/gurme.webp" alt="Brand 1" />
+            <Box>
+              <img src="/icons/whiskas.svg" alt="Brand 1" />
             </Box>
-            <Box className="review-box">
-              <img src="/img/seafood.webp" alt="Brand 2" />
+            <Box>
+              <img src="/icons/brand_butcher.svg" alt="Brand 2" />
             </Box>
-            <Box className="review-box">
-              <img src="/img/sweets.webp" alt="Brand 3" />
+            <Box>
+              <img src="/icons/brand_felix.svg" alt="Brand 3" />
             </Box>
-            <Box className="review-box">
-              <img src="/img/doner.webp" alt="Brand 4" />
+
+            <Box>
+              <img src="/icons/brand_pedigree.svg" alt="Brand 4" />
+            </Box>
+            <Box>
+              <img src="/icons/brand_pedigree.svg" alt="Brand 5" />
+            </Box>
+            <Box>
+              <img src="/icons/brand_pedigree.svg" alt="Brand 6" />
             </Box>
           </Stack>
         </Container>
       </div>
-      <div className={"address"}>
-        <Container>
-          <Stack className={"address-area"}>
-            <Box className={"category-title"}>Our address</Box>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2995.5262489589635!2d69.28586867611149!3d41.34119147127584!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8d660b2bd55d%3A0xd86dc4c9715c2025!2sYunusabad%20District%2C%20Tashkent%2C%20Uzbekistan!5e0!3m2!1sen!2sus!4v1731707776783!5m2!1sen!2sus"
-              width="1320"
-              height="500"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </Stack>
-        </Container>
-      </div>
+      <div className={"address"}></div>
     </div>
   );
 }

@@ -9,11 +9,10 @@ import {
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Basket from "./Basket";
-import { useEffect, useState } from "react";
 import { CartItem } from "../../../lib/types/search";
 import { useGlobals } from "../../hooks/useGlobals";
 import { serverApi } from "../../../lib/config";
-import { Anchor, Logout } from "@mui/icons-material";
+import { Logout } from "@mui/icons-material";
 
 interface HomeNavbarProps {
   cartItems: CartItem[];
@@ -86,10 +85,16 @@ export default function HomeNavbar(props: HomeNavbarProps) {
               </NavLink>
             </Box>
             <Box className={"hover-line"}>
-              <NavLink to="/help" activeClassName={"underline"}>
-                About
+              <NavLink to="/services" activeClassName={"underline"}>
+                Services
               </NavLink>
             </Box>
+            <Box className={"hover-line"}>
+              <NavLink to="/aboutus" activeClassName={"underline"}>
+                About Us
+              </NavLink>
+            </Box>
+
             <Basket
               cartItems={cartItems}
               onAdd={onAdd}
@@ -166,9 +171,15 @@ export default function HomeNavbar(props: HomeNavbarProps) {
         </Stack>
         <Stack className={"header-frame"}>
           <Stack className="detail">
-            <Box className="head-main-txt">World's Most Delicious Cousine</Box>
-            <Box className={"wel-txt"}> The Choice, not just a choice</Box>
-            <Box className={"service-txt"}> 24 hours service </Box>
+            <Box className="head-main-txt">
+              More Fun, More Love for Your Pet!
+            </Box>
+            <Box className={"wel-txt"}>
+              {" "}
+              Premium quality products for your furry friends. Shop food, toys,
+              accessories and more!
+            </Box>
+
             <Box className={"signup"}>
               {!authMember ? (
                 <Button
@@ -182,7 +193,10 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             </Box>
           </Stack>
           <Stack className="logo-frame">
-            <div className="logo-img"></div>
+            <div className="logo-img">
+              {" "}
+              <img src="/img/home-nav.png" />
+            </div>
           </Stack>
         </Stack>
       </Container>

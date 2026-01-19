@@ -295,7 +295,6 @@
   height: 693px;
   margin-top: 67px;
   display: flex;
-  background-color: #0d1518;
 }
 
 .brand-logo .family-brands .category-title {
@@ -313,18 +312,6 @@
   margin-top: 59px;
   display: flex;
   align-content: space-between;
-}
-
-.brand-logo .family-brands .brand-list .review-box {
-  width: 258px;
-  height: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  border-radius: 10px;
-  background-color: #0d1518;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }
 
 .brand-logo .family-brands .brand-list .review-box img {
@@ -388,7 +375,8 @@
   width: 48%;
   height: 480px;
   background: #ffffff;
-  box-shadow: 9px 13px 14px 5px rgba(0, 0, 0, 0.25),
+  box-shadow:
+    9px 13px 14px 5px rgba(0, 0, 0, 0.25),
     inset -1px 2px 10px 3px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
   overflow: hidden;
@@ -416,7 +404,8 @@
   height: 480px;
   display: flex;
   background: #ffffff;
-  box-shadow: 9px 13px 14px 5px rgba(0, 0, 0, 0.25),
+  box-shadow:
+    9px 13px 14px 5px rgba(0, 0, 0, 0.25),
     inset -1px 2px 10px 3px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
 }

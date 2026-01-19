@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import { Fab, Stack, TextField } from "@mui/material";
+import { Box, Fab, Stack, TextField, Typography } from "@mui/material";
 import styled from "styled-components";
 import LoginIcon from "@mui/icons-material/Login";
 import { T } from "../../../lib/types/common";
@@ -128,45 +128,76 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
         onClose={handleSignupClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
+        BackdropProps={{ timeout: 500 }}
       >
         <Fade in={signupOpen}>
           <Stack
-            className={classes.paper}
-            direction={"row"}
-            sx={{ width: "800px" }}
+            direction={{ xs: "column", sm: "row" }}
+            sx={{
+              width: { xs: "90%", sm: 800 },
+              maxHeight: "80vh",
+              bgcolor: "background.paper",
+              borderRadius: 3,
+              overflow: "hidden",
+              boxShadow: 24,
+              mx: "auto",
+              my: 4,
+            }}
           >
-            <ModalImg src={"/img/auth.webp"} alt="camera" />
-            <Stack sx={{ marginLeft: "69px", alignItems: "center" }}>
-              <h2>Signup Form</h2>
+            {/* Left Image */}
+            <Box
+              component="img"
+              src="/img/login.webp"
+              alt="Signup"
+              sx={{
+                width: { xs: "100%", sm: "50%" },
+                height: "100%",
+                maxHeight: { xs: 200, sm: "100%" },
+                objectFit: "cover",
+                alignSelf: "flex-end", // <--- makes image align lower
+              }}
+            />
+
+            {/* Right Form */}
+            <Stack
+              spacing={3}
+              sx={{
+                width: { xs: "100%", sm: "50%" },
+                p: { xs: 3, sm: 5 },
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="h5" fontWeight={600} mb={1}>
+                Signup Form
+              </Typography>
+
               <TextField
-                sx={{ marginTop: "7px" }}
-                id="outlined-basic"
-                label="username"
+                fullWidth
+                label="Username"
                 variant="outlined"
                 onChange={handleUsername}
               />
               <TextField
-                sx={{ my: "17px" }}
-                id="outlined-basic"
-                label="phone number"
+                fullWidth
+                label="Phone Number"
                 variant="outlined"
                 onChange={handlePhone}
               />
               <TextField
-                id="outlined-basic"
-                label="password"
+                fullWidth
+                label="Password"
+                type="password"
                 variant="outlined"
                 onChange={handlePassword}
                 onKeyDown={handlePasswordKeyDown}
               />
+
               <Fab
-                sx={{ marginTop: "30px", width: "120px" }}
                 variant="extended"
                 color="primary"
                 onClick={handleSignupRequest}
+                sx={{ mt: 2, width: "100%", justifyContent: "center" }}
               >
                 <LoginIcon sx={{ mr: 1 }} />
                 Signup
@@ -194,7 +225,19 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
             direction={"row"}
             sx={{ width: "700px" }}
           >
-            <ModalImg src={"/img/auth.webp"} alt="camera" />
+            {/* Left Image */}
+            <Box
+              component="img"
+              src="/img/login.webp"
+              alt="Signup"
+              sx={{
+                width: { xs: "100%", sm: "50%" },
+                height: "100%",
+                maxHeight: { xs: 200, sm: "100%" },
+                objectFit: "cover",
+                alignSelf: "flex-end", // <--- makes image align lower
+              }}
+            />
             <Stack
               sx={{
                 marginLeft: "65px",

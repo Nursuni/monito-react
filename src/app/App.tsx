@@ -22,8 +22,7 @@ import "../css/footer.css";
 import "../css/home.css";
 import "../css/products.css";
 import "../css/orders.css";
-import Test from "./screens/Test";
-import { CartItem } from "../lib/types/search";
+
 import ProductsPage from "./screens/productsPage";
 import useBasket from "./hooks/useBasket";
 import AuthenticationModal from "./components/auth";
@@ -33,6 +32,8 @@ import { Message } from "@mui/icons-material";
 import { Messages } from "../lib/config";
 import MemberService from "./services/MemberService";
 import { useGlobals } from "./hooks/useGlobals";
+import ServicePage from "./screens/servicePage/Service";
+import AboutPage from "./screens/aboutPage/AboutPage";
 
 function App() {
   const location = useLocation();
@@ -112,6 +113,12 @@ function App() {
         </Route>
         <Route path="/help">
           <HelpPage />
+        </Route>
+        <Route path="/services">
+          <ServicePage />
+        </Route>
+        <Route path="/aboutus">
+          <AboutPage />
         </Route>
         <Route path="/">
           <HomePage />

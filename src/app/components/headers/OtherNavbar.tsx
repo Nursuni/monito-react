@@ -41,17 +41,18 @@ export default function OtherNavbar(props: OtherNavbarProps) {
         <Stack className="menu">
           <Box>
             <NavLink to={"/"}>
-              <img className="brand-logo" src="/icons/burak.svg" />
+              <img className="brand-logo" src="/icons/frame.svg" />
             </NavLink>
-            <Box> Best for Pets</Box>
           </Box>
           <Stack className="links">
             <Box className={"hover-line"}>
-              <NavLink to="/">Home</NavLink>
+              <NavLink to="/" activeClassName={"underline"}>
+                Home
+              </NavLink>
             </Box>
             <Box className={"hover-line"}>
               <NavLink to="/products" activeClassName={"underline"}>
-                Products
+                Category
               </NavLink>
             </Box>
             {authMember ? (
@@ -73,6 +74,17 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                 Help
               </NavLink>
             </Box>
+            <Box className={"hover-line"}>
+              <NavLink to="/services" activeClassName={"underline"}>
+                Services
+              </NavLink>
+            </Box>
+            <Box className={"hover-line"}>
+              <NavLink to="/aboutus" activeClassName={"underline"}>
+                About Us
+              </NavLink>
+            </Box>
+
             <Basket
               cartItems={cartItems}
               onAdd={onAdd}
@@ -102,6 +114,7 @@ export default function OtherNavbar(props: OtherNavbarProps) {
                 onClick={handleLogoutClick}
               />
             )}
+
             <Menu
               anchorEl={anchorEl}
               id="account-menu"

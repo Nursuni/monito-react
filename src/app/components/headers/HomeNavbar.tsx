@@ -48,12 +48,17 @@ export default function HomeNavbar(props: HomeNavbarProps) {
   return (
     <div className="home-navbar">
       <Container className="navbar-container">
-        <Stack className="menu">
-          <Box>
-            <NavLink to={"/"}>
-              <img className="brand-logo" src="/icons/frame.svg" />
-            </NavLink>
-          </Box>
+        <Stack
+          className="menu"
+          sx={{
+            maxWidth: 1300,
+            mx: "auto", // centers the container
+            px: 2, // optional padding left/right
+          }}
+        >
+          <NavLink to={"/"}>
+            <img className="brand-logo" src="/icons/frame.svg" />
+          </NavLink>
           <Stack className="links">
             <Box className={"hover-line"}>
               <NavLink to="/" activeClassName={"underline"}>

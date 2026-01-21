@@ -12,9 +12,10 @@ import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 import MemberService from "../../services/MemberService";
 import { Member } from "../../../lib/types/member";
-import SeeApp from "./SeeApp";
+
 import NewProducts from "./NewProducts";
 import PopularProducts from "./PopularProducts";
+import FeaturesSection from "./FeaturesSection";
 
 /**REDUX SLICE & SELECTOR */
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -61,13 +62,13 @@ export default function HomePage() {
 
   return (
     <div className="homepage">
+      <Statistics />
       <PopularProducts />
       <NewProducts />
       <Advertisement />
       <ActiveUsers />
-      <SeeApp />
-      <Statistics />
       <Events />
+      <FeaturesSection />
     </div>
   );
 }

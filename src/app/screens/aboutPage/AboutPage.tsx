@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Stack, Box, Typography, Grid, Avatar } from "@mui/material";
+import Address from "../productsPage/Address";
 
 interface TeamMember {
   name: string;
@@ -11,17 +12,17 @@ const team: TeamMember[] = [
   {
     name: "Alice Johnson",
     role: "Founder & CEO",
-    image: "/img/team/alice.jpg",
+    image: "/img/nora.jpg",
   },
   {
     name: "Mark Smith",
     role: "Head of Grooming",
-    image: "/img/team/mark.jpg",
+    image: "/img/man.webp",
   },
   {
     name: "Sophia Lee",
     role: "Customer Support",
-    image: "/img/team/sophia.jpg",
+    image: "/img/mina.jpg",
   },
 ];
 
@@ -122,6 +123,7 @@ export default function AboutUsPage() {
           ))}
         </Grid>
       </Container>
+      <Address />
     </div>
   );
 }

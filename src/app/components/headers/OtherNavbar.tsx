@@ -38,7 +38,14 @@ export default function OtherNavbar(props: OtherNavbarProps) {
   return (
     <div className="other-navbar">
       <Container className="navbar-container">
-        <Stack className="menu">
+        <Stack
+          className="menu"
+          sx={{
+            maxWidth: 1300,
+            mx: "auto", // centers the container
+            px: 2, // optional padding left/right
+          }}
+        >
           <Box>
             <NavLink to={"/"}>
               <img className="brand-logo" src="/icons/frame.svg" />

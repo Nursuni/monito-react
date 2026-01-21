@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import "../css/app.css";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   useLocation,
 } from "react-router-dom";
 import HomePage from "./screens/homePage";
@@ -28,12 +26,13 @@ import useBasket from "./hooks/useBasket";
 import AuthenticationModal from "./components/auth";
 import { T } from "../lib/types/common";
 import { sweetErrorHandling, sweetTopSuccessAlert } from "../lib/sweetAlert";
-import { Message } from "@mui/icons-material";
+
 import { Messages } from "../lib/config";
 import MemberService from "./services/MemberService";
 import { useGlobals } from "./hooks/useGlobals";
 import ServicePage from "./screens/servicePage/Service";
 import AboutPage from "./screens/aboutPage/AboutPage";
+import OfferPopup from "./components/headers/OfferPopUp";
 
 function App() {
   const location = useLocation();
@@ -62,7 +61,6 @@ function App() {
     }
   };
 
-  // ✅ App returns JSX directly
   return (
     <>
       {location.pathname === "/" ? (
@@ -105,6 +103,7 @@ function App() {
             onDeleteAll={onDeleteAll}
           />
         </Route>
+
         <Route path="/orders">
           <OrdersPage />
         </Route>
@@ -124,7 +123,7 @@ function App() {
           <HomePage />
         </Route>
       </Switch>
-
+      <OfferPopup />
       <Footer />
 
       <AuthenticationModal

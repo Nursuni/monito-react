@@ -62,7 +62,7 @@ export default function OrdersPage() {
 
   return (
     <div className="order-page">
-      <Container className="order-container">
+      <Container className="order-container" sx={{ mb: 10 }}>
         <Stack className="order-left">
           <TabContext value={value}>
             {/* Tabs header */}

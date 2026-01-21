@@ -1,9 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { Box, Button, Container, Stack } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import Badge from "@mui/material/Badge";
+import { Box, Container, Stack } from "@mui/material";
+
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -19,6 +16,7 @@ import { ProductCollection } from "../../../lib/enums/product.enum";
 import { serverApi } from "../../../lib/config";
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../lib/types/search";
+import ShopProducts from "./ShopProducts";
 
 interface ProductsProps {
   cartItems: CartItem[];
@@ -47,7 +45,7 @@ export default function Products(props: ProductsProps) {
     page: 1,
     limit: 8,
     order: "createdAt",
-    productCollection: ProductCollection.ACCESSORY,
+    productCollection: ProductCollection.FOOD,
     search: "",
   });
   const [searchText, setSearchText] = useState<string>("");
@@ -99,229 +97,10 @@ export default function Products(props: ProductsProps) {
 
   return (
     <div className="products">
+      <ShopProducts />
       <Container>
         <Stack flexDirection="column" alignItems="center">
-          <Stack className="avatar-big-box">
-            <Stack className={"category-title"}>
-              {" "}
-              <p> Monito </p>
-              <Stack className="single-search-big-box">
-                <input
-                  type="search"
-                  className="single-search-input"
-                  name="singleResearch"
-                  placeholder="Type here"
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") searchProductHandler();
-                  }}
-                />
-
-                <Button
-                  className="single-button-search"
-                  variant="contained"
-                  endIcon={<SearchIcon />}
-                  onClick={searchProductHandler}
-                >
-                  Search
-                </Button>
-              </Stack>
-            </Stack>
-          </Stack>
-
-          <Stack className="dishes-filter-section" justifyContent="flex-end">
-            <Button
-              variant="contained"
-              color={
-                productSearch.order === "createdAt" ? "primary" : "secondary"
-              }
-              className="order"
-              onClick={() => searchOrderHandler("createdAt")}
-            >
-              New
-            </Button>
-            <Button
-              variant="contained"
-              color={
-                productSearch.order === "productPrice" ? "primary" : "secondary"
-              }
-              className="order"
-              onClick={() => searchOrderHandler("productPrice")}
-            >
-              Price
-            </Button>
-            <Button
-              variant="contained"
-              color={
-                productSearch.order === "productViews" ? "primary" : "secondary"
-              }
-              className="order"
-              onClick={() => searchOrderHandler("productViews")}
-            >
-              Views
-            </Button>
-          </Stack>
-
-          <Stack className="list-category-section">
-            {" "}
-            <Stack className="product-category">
-              <div
-                className="category-main"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  alignContent: "space-evenly",
-                }}
-              >
-                {" "}
-                <Button
-                  variant="contained"
-                  color={
-                    productSearch.productCollection === ProductCollection.OTHER
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.OTHER)
-                  }
-                >
-                  OTHER
-                </Button>
-                <Button
-                  variant="contained"
-                  color={
-                    productSearch.productCollection === ProductCollection.FOOD
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.FOOD)
-                  }
-                >
-                  DESERT
-                </Button>
-                <Button
-                  variant="contained"
-                  color={
-                    productSearch.productCollection === ProductCollection.DRINK
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.DRINK)
-                  }
-                >
-                  DRINK
-                </Button>
-                <Button
-                  variant="contained"
-                  color={
-                    productSearch.productCollection === ProductCollection.TREAT
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.TREAT)
-                  }
-                >
-                  Salad
-                </Button>{" "}
-                <Button
-                  variant="contained"
-                  color={
-                    productSearch.productCollection ===
-                    ProductCollection.ACCESSORY
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.ACCESSORY)
-                  }
-                >
-                  Dish
-                </Button>{" "}
-              </div>
-            </Stack>
-            <Stack className="product-wrapper">
-              {products.length !== 0 ? (
-                products.map((product: Product) => {
-                  const imagePath = `${serverApi}/${product.productImages[0]}`;
-                  const sizeVolume =
-                    product.productCollection === ProductCollection.DRINK
-                      ? product.productVolume + "litre"
-                      : product.productSize + "size";
-
-                  return (
-                    <Stack
-                      key={product._id}
-                      className="product-card"
-                      onClick={() => chooseDishHandler(product._id)}
-                    >
-                      <Stack
-                        className="product-img"
-                        sx={{ backgroundImage: `url(${imagePath})` }}
-                      >
-                        <div className="product-sale">{sizeVolume}</div>
-
-                        <Button
-                          className="shop-btn"
-                          sx={{
-                            minWidth: "unset",
-                            padding: "5px",
-                          }}
-                          onClick={(e) => {
-                            onAdd({
-                              _id: product._id,
-                              quantity: 1,
-                              name: product.productName,
-                              price: product.productPrice,
-                              image: product.productImages[0],
-                            });
-                            e.stopPropagation();
-                          }}
-                        >
-                          <img
-                            src="/icons/cart-icon-cat.png"
-                            alt="Add to Cart"
-                            style={{ width: "24px", height: "20px" }}
-                          />
-                        </Button>
-
-                        <Button className="view-btn" sx={{ right: "36px" }}>
-                          <Badge
-                            badgeContent={product.productViews}
-                            color="secondary"
-                          >
-                            <RemoveRedEyeIcon
-                              sx={{
-                                color:
-                                  product.productViews === 0 ? "gray" : "white",
-                              }}
-                            />
-                          </Badge>
-                        </Button>
-                      </Stack>
-
-                      <Box className="product-desc">
-                        <Box className="product-title">
-                          <span>{product.productName}</span>
-                          <div className="product-price">
-                            <MonetizationOnIcon color="secondary" />
-                            {product.productPrice}
-                          </div>
-                        </Box>
-                      </Box>
-                    </Stack>
-                  );
-                })
-              ) : (
-                <Box className="no-data">Products are not available!</Box>
-              )}
-            </Stack>
-          </Stack>
-          <Stack className={"pagination-section"}>
+          <Stack className={"pagination-section"} sx={{ mt: 10, mb: 8 }}>
             <Pagination
               count={
                 products.length !== 0
@@ -344,39 +123,7 @@ export default function Products(props: ProductsProps) {
           </Stack>
         </Stack>
       </Container>
-      <div className="brand-logo">
-        <Container className="family-brands">
-          <Box className="category-title">Proud to be part of Pet Sellers</Box>
-          <Box> View all our sellers</Box>
-          <Stack
-            className="brand-list"
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            spacing={11}
-          >
-            <Box>
-              <img src="/icons/whiskas.svg" alt="Brand 1" />
-            </Box>
-            <Box>
-              <img src="/icons/brand_butcher.svg" alt="Brand 2" />
-            </Box>
-            <Box>
-              <img src="/icons/brand_felix.svg" alt="Brand 3" />
-            </Box>
 
-            <Box>
-              <img src="/icons/brand_pedigree.svg" alt="Brand 4" />
-            </Box>
-            <Box>
-              <img src="/icons/brand_pedigree.svg" alt="Brand 5" />
-            </Box>
-            <Box>
-              <img src="/icons/brand_pedigree.svg" alt="Brand 6" />
-            </Box>
-          </Stack>
-        </Container>
-      </div>
       <div className={"address"}></div>
     </div>
   );

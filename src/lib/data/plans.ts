@@ -4,7 +4,7 @@ export const plans = [
     title: "Puppy Training Workshop",
     author: "Monito Pets Team",
     desc: "Learn basic commands and socialize your puppy in a fun group session.",
-    date: "Jan 25, 2026",
+    date: "Jan 25, 2025",
     location: "Monito Pets Store, Dubai Downtown",
   },
   {
@@ -12,7 +12,7 @@ export const plans = [
     title: "Pet Adoption Day",
     author: "Monito Pets Shop",
     desc: "Come and meet adorable pets ready for adoption and find your new friend!",
-    date: "Feb 10, 2026",
+    date: "Feb 10, 2025",
     location: "Monito Pets Main Branch",
   },
   {
@@ -20,7 +20,7 @@ export const plans = [
     title: "Pet Grooming Workshop",
     author: "Professional Groomers",
     desc: "Learn grooming tips to keep your pets clean, happy, and healthy.",
-    date: "Mar 5, 2026",
+    date: "Mar 5, 2025",
     location: "Monito Pets Grooming Center",
   },
   {
@@ -28,7 +28,7 @@ export const plans = [
     title: "Pet Nutrition Seminar",
     author: "Veterinary Experts",
     desc: "Understand the best diet for your pets’ health and longevity.",
-    date: "Mar 20, 2026",
+    date: "Mar 20, 2025",
     location: "Online / Monito Pets Store",
   },
   {
@@ -36,7 +36,7 @@ export const plans = [
     title: "Community Dog Walk",
     author: "Monito Pets Team",
     desc: "Join other dog owners for a fun morning walk and socialization.",
-    date: "Apr 3, 2026",
+    date: "Apr 3, 2025",
     location: "City Park, Dubai",
   },
   {
@@ -44,7 +44,7 @@ export const plans = [
     title: "Cat Playday Event",
     author: "Monito Pets Shop",
     desc: "A special play session for cats with toys, treats, and fun activities.",
-    date: "Apr 15, 2026",
+    date: "Apr 15, 2025",
     location: "Monito Pets Cat Lounge",
   },
   {
@@ -52,7 +52,7 @@ export const plans = [
     title: "Free Vet Check-up",
     author: "Certified Veterinarians",
     desc: "Bring your pets for a free health check-up and advice from experts.",
-    date: "May 1, 2026",
+    date: "May 1, 2025",
     location: "Monito Pets Clinic",
   },
   {
@@ -60,7 +60,7 @@ export const plans = [
     title: "Puppy Party",
     author: "Monito Pets Events",
     desc: "Celebrate your puppy’s milestones with fun games, treats, and friends!",
-    date: "May 10, 2026",
+    date: "May 10, 2025",
     location: "Monito Pets Play Area",
   },
 ];

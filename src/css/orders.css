@@ -3,7 +3,6 @@
   height: auto;
   display: flex;
   background: #f8f8ff;
-  margin-bottom: 355px;
 }
 
 .order-page .order-container {
@@ -21,7 +20,9 @@
   height: auto;
   display: flex;
   align-items: center;
-  box-shadow: -12px 12px 4px #bababf, inset 0px 4px 10px 9px #d3d3e7,
+  box-shadow:
+    -12px 12px 4px #bababf,
+    inset 0px 4px 10px 9px #d3d3e7,
     inset 0px 4px 16px rgba(242, 189, 87, 0.04);
   border-radius: 16px;
 }
@@ -107,7 +108,8 @@
   flex-direction: column;
   align-items: center;
   background: #f6f2ff;
-  box-shadow: 15px 14px 4px rgba(0, 0, 0, 0.25),
+  box-shadow:
+    15px 14px 4px rgba(0, 0, 0, 0.25),
     inset -1px 0px 16px 13px rgb(24 23 112 / 20%);
   border-radius: 16px;
 }
@@ -195,7 +197,8 @@
   flex-direction: column;
   align-items: center;
   background: #f6f2ff;
-  box-shadow: 15px 14px 4px rgba(0, 0, 0, 0.25),
+  box-shadow:
+    15px 14px 4px rgba(0, 0, 0, 0.25),
     inset -1px 0px 16px 13px rgb(24 23 112 / 20%);
   border-radius: 16px;
   color: #777777;

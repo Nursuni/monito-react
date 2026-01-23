@@ -24,8 +24,8 @@ import { CartItem } from "../../../lib/types/search";
 
 interface ChosenProductProps {
   onAdd: (item: CartItem) => void;
- }
- 
+}
+
 /**REDUX SLICE & SELECTOR */
 const actionDispatch = (dispatch: Dispatch) => ({
   setChosenProduct: (data: Product) => dispatch(setChosenProduct(data)),
@@ -36,13 +36,13 @@ const chosenProductRetriever = createSelector(
   retrieveChosenProduct,
   (chosenProduct) => ({
     chosenProduct,
-  })
+  }),
 );
 const restaurantRetriever = createSelector(
   retrieveRestaurant,
   (restaurant) => ({
     restaurant,
-  })
+  }),
 );
 
 export default function ChosenProduct(props: ChosenProductProps) {

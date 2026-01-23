@@ -42,8 +42,8 @@ export default function OtherNavbar(props: OtherNavbarProps) {
           className="menu"
           sx={{
             maxWidth: 1300,
-            mx: "auto", // centers the container
-            px: 2, // optional padding left/right
+            mx: "auto",
+            px: 2,
           }}
         >
           <Box>
@@ -53,10 +53,11 @@ export default function OtherNavbar(props: OtherNavbarProps) {
           </Box>
           <Stack className="links">
             <Box className={"hover-line"}>
-              <NavLink to="/" activeClassName={"underline"}>
+              <NavLink to="/" exact activeClassName={"underline"}>
                 Home
               </NavLink>
             </Box>
+
             <Box className={"hover-line"}>
               <NavLink to="/products" activeClassName={"underline"}>
                 Category

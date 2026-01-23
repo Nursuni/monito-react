@@ -3,12 +3,14 @@
   width: 100%;
   height: auto;
   display: flex;
-  background-size: cover;
+  background: transparent !important;
 }
 
 .home-navbar .navbar-container {
   position: relative;
   margin-top: 35px;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .home-navbar .navbar-container .menu {
@@ -20,20 +22,20 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  background: transparent !important;
 }
 /* Navbar logo positioning */
 .home-navbar .navbar-container .menu .brand-logo,
 .other-navbar .navbar-container .menu .brand-logo {
+  margin-top: 6px;
   width: 125px;
   height: 50px;
-
-  display: flex; /* make flex container */
-  justify-content: flex-start; /* align content to left */
-  align-items: flex-start; /* align content to top */
-
-  position: relative; /* allows further positioning if needed */
-  top: 0; /* optional: move top */
-  left: 0; /* optional: move left */
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+  top: 0;
+  left: 0;
 }
 
 .home-navbar .navbar-container .menu .links {
@@ -84,8 +86,8 @@
 
 .home-navbar .navbar-container .header-frame {
   position: relative;
-  margin-top: 60px;
-  height: 462px;
+  margin-top: 30px;
+  height: 444px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -138,21 +140,21 @@
   position: relative;
   width: 944px;
   height: 700px;
-  overflow: visible; /* allow the image to go outside container */
+  overflow: visible;
 }
 
 .home-navbar .navbar-container .logo-frame .logo-img {
-  position: absolute; /* allows moving it up */
-  top: -50px; /* lifts the image higher */
+  position: absolute;
+  top: -50px;
   left: 0;
-  width: auto; /* keep natural width */
-  height: 500px; /* adjust to container height or desired size */
+  width: auto;
+  height: 500px;
 }
 
 .home-navbar .navbar-container .logo-frame .logo-img img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* keeps proportions */
+  object-fit: contain;
   display: block;
 }
 

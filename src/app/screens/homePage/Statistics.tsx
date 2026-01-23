@@ -8,7 +8,7 @@ import PetsIcon from "@mui/icons-material/Pets";
 export default function PowerfulStatsRow() {
   const stats = [
     {
-      icon: <PersonIcon sx={{ color: "#3fbf7f", fontSize: 28 }} />,
+      icon: <PersonIcon sx={{ color: "#fff", fontSize: 28 }} />,
       num: "1M+",
       label: "Active Users",
     },
@@ -30,13 +30,46 @@ export default function PowerfulStatsRow() {
   ];
 
   return (
-    <Box sx={{ py: { xs: 6, md: 10 }, bgcolor: "#f8f8ff" }}>
-      <Container maxWidth="lg">
+    <Box
+      sx={{ py: { xs: 6, md: 10 }, position: "relative", overflow: "hidden" }}
+    >
+      {/* Background image */}
+      <Box
+        component="img"
+        src="/img/statistics.png"
+        alt="background"
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: 0,
+          color: "#fff",
+          textShadow: "1px 1px 4px rgba(0,0,0,0.7)",
+        }}
+      />
+
+      {/* Optional overlay for readability */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          bgcolor: "rgba(255,255,255,0.6)", // adjust opacity for text readability
+          zIndex: 1,
+        }}
+      />
+
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
         <Stack
           direction={{ xs: "column", md: "row" }}
           alignItems="center"
           justifyContent="center"
-          spacing={{ xs: 4, md: 6 }} // add some spacing between left and right
+          spacing={{ xs: 4, md: 6 }}
         >
           {/* Left headline */}
           <Box
@@ -74,13 +107,13 @@ export default function PowerfulStatsRow() {
             direction="row"
             divider={
               <Box sx={{ width: "1px", bgcolor: "rgba(0,0,0,0.1)", mx: 5 }} />
-            } // small gap
+            }
             justifyContent="flex-start"
             alignItems="center"
-            spacing={0} // no extra spacing needed, divider handles gap
+            spacing={3}
           >
             {stats.map((stat, idx) => (
-              <Box key={idx} sx={{ textAlign: "center", minWidth: 100, px: 1 }}>
+              <Box key={idx} sx={{ textAlign: "center", minWidth: 100, px: 2 }}>
                 <Typography
                   variant="h1"
                   fontWeight={700}

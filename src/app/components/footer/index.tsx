@@ -5,11 +5,18 @@ import styled from "styled-components";
 
 const FooterWrapper = styled.div`
   width: 100%;
-  background-color: #f8f8ff; /* light background */
   padding-top: 80px;
   padding-bottom: 40px;
-`;
 
+  /* Remove overlay or make it transparent */
+  background-image: url("/icons/footer.png");
+
+  background-size: cover; /* make image cover full area */
+  background-position: center; /* center the image */
+  background-repeat: no-repeat; /* don't repeat */
+
+  min-height: 400px; /* ensures footer height is covered by image */
+`;
 export default function Footer() {
   const quickLinks = [
     { label: "Home", path: "/" },

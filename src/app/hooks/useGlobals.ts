@@ -9,7 +9,7 @@ interface GlobalInterface {
 }
 
 export const GlobalContext = createContext<GlobalInterface | undefined>(
-  undefined
+  undefined,
 );
 
 export const useGlobals = () => {

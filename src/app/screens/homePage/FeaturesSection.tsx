@@ -30,7 +30,7 @@ export default function FeaturesSection() {
   ];
 
   return (
-    <Box sx={{ py: { xs: 6, md: 12 } }}>
+    <Box sx={{ py: { xs: 6, md: 8 } }}>
       <Container>
         <Stack
           direction={{ xs: "column", md: "row" }}
@@ -57,7 +57,7 @@ export default function FeaturesSection() {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ fontSize: { xs: 14, md: 16 } }}
+                sx={{ fontSize: { xs: 14, md: 15 } }}
               >
                 {feature.desc}
               </Typography>

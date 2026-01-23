@@ -12,6 +12,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import "../../../css/help.css";
 import { faq } from "../../../lib/data/faq";
 import { terms } from "../../../lib/data/terms";
+import FeaturesSection from "../homePage/FeaturesSection";
 
 export default function HelpPage() {
   const [value, setValue] = React.useState("1");
@@ -122,6 +123,7 @@ export default function HelpPage() {
           </Stack>
         </TabContext>
       </Container>
+      <FeaturesSection />
     </div>
   );
 }

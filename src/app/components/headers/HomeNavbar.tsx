@@ -52,8 +52,8 @@ export default function HomeNavbar(props: HomeNavbarProps) {
           className="menu"
           sx={{
             maxWidth: 1300,
-            mx: "auto", // centers the container
-            px: 2, // optional padding left/right
+            mx: "auto",
+            px: 2,
           }}
         >
           <NavLink to={"/"}>

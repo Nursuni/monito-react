@@ -133,8 +133,8 @@ export default function UsefulKnowledge() {
               "/icons/brand_butcher.svg",
               "/icons/brand_felix.svg",
               "/icons/brand_pedigree.svg",
-              "/icons/brand_pedigree.svg",
-              "/icons/brand_pedigree.svg",
+              "/icons/brand_goodboy.svg",
+              "/icons/brand_sheba.svg",
             ].map((logo, index) => (
               <Box
                 key={index}

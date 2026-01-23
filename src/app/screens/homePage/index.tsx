@@ -15,7 +15,8 @@ import { Member } from "../../../lib/types/member";
 
 import NewProducts from "./NewProducts";
 import PopularProducts from "./PopularProducts";
-import FeaturesSection from "./FeaturesSection";
+
+import Reviews from "./Reviews";
 
 /**REDUX SLICE & SELECTOR */
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -67,8 +68,8 @@ export default function HomePage() {
       <NewProducts />
       <Advertisement />
       <ActiveUsers />
+      <Reviews />
       <Events />
-      <FeaturesSection />
     </div>
   );
 }

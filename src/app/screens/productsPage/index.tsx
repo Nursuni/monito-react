@@ -3,7 +3,6 @@ import { Switch, Route, useRouteMatch } from "react-router-dom";
 import ChosenProduct from "./ChosenProduct";
 import Products from "./Products";
 import { CartItem } from "../../../lib/types/search";
-import MarqueeLogos from "./Trusted-Brand";
 
 interface ProductsPageProps {
   cartItems: CartItem[];
@@ -33,7 +32,6 @@ export default function ProductsPage(props: ProductsPageProps) {
           />
         </Route>
       </Switch>
-      <MarqueeLogos />
     </div>
   );
 }

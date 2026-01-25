@@ -12,18 +12,21 @@ import { createSelector } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { Product } from "../../../lib/types/product";
 import { serverApi } from "../../../lib/config";
-import { retrieveNewDishes } from "./selector";
+import { retrieveNewProducts } from "./selector";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 
 /**REDUX SLICE & SELECTOR */
 
-const newDishesRetriever = createSelector(retrieveNewDishes, (newDishes) => {
-  return { newDishes };
-});
+const newProductsRetriever = createSelector(
+  retrieveNewProducts,
+  (newProducts) => {
+    return { newProducts };
+  },
+);
 
 export default function NewProducts() {
-  const { newDishes } = useSelector(newDishesRetriever);
-  console.log("popularDishes: retrievePopularDishes", newDishes);
+  const { newProducts } = useSelector(newProductsRetriever);
+  console.log("popularProducts: retrievePopularProductts", newProducts);
   return (
     <div className="new-products-frame">
       <Container>
@@ -32,8 +35,8 @@ export default function NewProducts() {
           <Box className="category-title">View more</Box>
           <Stack className="cards-frame">
             <CssVarsProvider>
-              {newDishes.length !== 0 ? (
-                newDishes.map((product: Product) => {
+              {newProducts.length !== 0 ? (
+                newProducts.map((product: Product) => {
                   const imagePath = `${serverApi}/${product.productImages[0]}`;
                   const sizeVolume =
                     product.productCollection === ProductCollection.DRINK

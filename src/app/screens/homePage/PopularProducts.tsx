@@ -10,30 +10,30 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 
 import { createSelector } from "@reduxjs/toolkit";
-import { retrievePopularDishes } from "./selector";
+import { retrievePopularProductts } from "./selector";
 import { useSelector } from "react-redux";
 import { Product } from "../../../lib/types/product";
 import { serverApi } from "../../../lib/config";
 
 /**REDUX SLICE & SELECTOR */
 
-const popularDishesRetriever = createSelector(
-  retrievePopularDishes,
-  (popularDishes) => ({ popularDishes }),
+const popularProductsRetriever = createSelector(
+  retrievePopularProductts,
+  (popularProducts) => ({ popularProducts }),
 );
 
 export default function PopularProducts() {
-  const { popularDishes } = useSelector(popularDishesRetriever);
-  console.log("popularDishes: retrievePopularDishes", popularDishes);
+  const { popularProducts } = useSelector(popularProductsRetriever);
+  console.log("popularProducts: retrievePopularProductts", popularProducts);
 
   return (
-    <Stack className="popular-dishes-frame">
+    <Stack className="popular-products-frame">
       <Container>
         <Stack className="popular-section">
           <Box className="category-title">Popular Products</Box>
           <Stack className="cards-frame" direction="row" spacing={2}>
-            {popularDishes.length !== 0 ? (
-              popularDishes.map((product: Product) => {
+            {popularProducts.length !== 0 ? (
+              popularProducts.map((product: Product) => {
                 const imagePath = `${serverApi}/${product.productImages[0]}`;
                 return (
                   <CssVarsProvider key={product._id}>

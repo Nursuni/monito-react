@@ -6,7 +6,7 @@ import ActiveUsers from "./ActiveUsers";
 import "../../../css/home.css";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
-import { setNewDishes, setPopularDishes, setTopUsers } from "./slice";
+import { setPopularProducts, setNewProducts, setTopUsers } from "./slice";
 import { Product } from "../../../lib/types/product";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
@@ -21,13 +21,13 @@ import MarqueeLogos from "../productsPage/Trusted-Brand";
 
 /**REDUX SLICE & SELECTOR */
 const actionDispatch = (dispatch: Dispatch) => ({
-  setPopularDishes: (data: Product[]) => dispatch(setPopularDishes(data)),
-  setNewDishes: (data: Product[]) => dispatch(setNewDishes(data)),
+  setPopularProducts: (data: Product[]) => dispatch(setPopularProducts(data)),
+  setNewProducts: (data: Product[]) => dispatch(setNewProducts(data)),
   setTopUsers: (data: Member[]) => dispatch(setTopUsers(data)),
 });
 
 export default function HomePage() {
-  const { setPopularDishes, setNewDishes, setTopUsers } =
+  const { setPopularProducts, setNewProducts, setTopUsers } =
     actionDispatch(useDispatch());
 
   useEffect(() => {
@@ -41,9 +41,9 @@ export default function HomePage() {
         productCollection: ProductCollection.FOOD,
       })
       .then((data) => {
-        setPopularDishes(data);
+        setPopularProducts(data);
       })
-      .catch((err) => console.log("Err, popularDishes", err));
+      .catch((err) => console.log("Err, popularProducts", err));
 
     product
       .getProducts({
@@ -52,8 +52,8 @@ export default function HomePage() {
         order: "createdAt",
         // productCollection: ProductCollection.DISH,
       })
-      .then((data) => setNewDishes(data))
-      .catch((err) => console.log("Err, popularDishes", err));
+      .then((data) => setNewProducts(data))
+      .catch((err) => console.log("Err, popularProducts", err));
 
     const member = new MemberService();
     member

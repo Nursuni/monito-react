@@ -15,6 +15,16 @@
   display: flex;
 }
 
+.order-nav-frame {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  border-radius: 12px;
+  padding: 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+}
+
 .order-main-box {
   width: 821px;
   height: auto;
@@ -178,13 +188,35 @@
   margin-top: 10px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
   font-family: "DM Sans";
   font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 14px;
   line-height: 24px;
-  color: #616164;
+  color: #495057;
+}
+
+.order-info-box .order-user-desc img:first-child {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.order-info-box .order-user-desc img:nth-child(2) {
+  width: 20px;
+  height: 20px;
+}
+
+.order-info-box .order-user-desc p {
+  margin: 0;
+  flex: 1;
 }
 
 .order-payment-box {
@@ -235,8 +267,8 @@
 
 .total-price-box {
   margin-bottom: 10px;
-  margin-top: 19px; /* mt={2} */
-  gap: 32px; /* gap={4} */
+  margin-top: 19px;
+  gap: 32px;
   width: auto;
   height: auto;
   display: flex;

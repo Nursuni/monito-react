@@ -17,6 +17,7 @@ import NewProducts from "./NewProducts";
 import PopularProducts from "./PopularProducts";
 
 import Reviews from "./Reviews";
+import MarqueeLogos from "../productsPage/Trusted-Brand";
 
 /**REDUX SLICE & SELECTOR */
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -64,6 +65,7 @@ export default function HomePage() {
   return (
     <div className="homepage">
       <PopularProducts />
+      <MarqueeLogos />
       <NewProducts />
       <Advertisement />
       <ActiveUsers />

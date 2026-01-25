@@ -61,18 +61,31 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="order-page">
+    <div
+      className="order-page"
+      style={{ backgroundColor: "white", minHeight: "100vh" }}
+    >
       <Container className="order-container" sx={{ mb: 10 }}>
         <Stack className="order-left">
           <TabContext value={value}>
             {/* Tabs header */}
-            <Box className="order-nav-frame">
+            <Box
+              className="order-nav-frame"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                borderRadius: "12px",
+                padding: "8px 0",
+                mb: 3,
+              }}
+            >
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <Tabs
                   value={value}
                   onChange={handleChange}
                   aria-label="order tabs"
                   className="table_list"
+                  centered
                 >
                   <Tab label="PAUSED ORDERS" value="1" />
                   <Tab label="PROCESS ORDERS" value="2" />
@@ -111,13 +124,30 @@ export default function OrdersPage() {
               </span>
             </Box>
             <Divider width="332" height="1" bg="#A1A1A1" />
-            <Box className="order-user-desc">
+            <Box
+              className="order-user-desc"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                padding: "16px",
+                backgroundColor: "#f8f9fa",
+                borderRadius: "10px",
+                border: "1px solid #e9ecef",
+              }}
+            >
               <img
                 src={
                   authMember?.memberImage
                     ? `${serverApi}/${authMember.memberImage}`
                     : "/icons/default-use.svg"
                 }
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "8px",
+                  objectFit: "cover",
+                }}
               />
               <img
                 src={
@@ -125,8 +155,18 @@ export default function OrdersPage() {
                     ? "/icons/restaurant-badge.svg"
                     : "/icons/user-badge.svg"
                 }
+                style={{ width: "20px", height: "20px" }}
               />
-              <p className="user-desc" style={{ margin: 0, marginLeft: "6px" }}>
+              <p
+                className="user-desc"
+                style={{
+                  margin: 0,
+                  fontSize: "14px",
+                  color: "#495057",
+                  fontWeight: 500,
+                  flex: 1,
+                }}
+              >
                 {authMember?.memberAddress
                   ? authMember.memberAddress
                   : "no address"}

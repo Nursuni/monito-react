@@ -1,163 +1,281 @@
+/* Top offer bar */
+.top-offer {
+  width: 100%;
+  padding: 8px 0;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  background: #eaf2ff;
+  color: #003459;
+}
+
+.offer-badge {
+  background: white;
+  color: #003459;
+  padding: 7px 10px;
+  border-radius: 6px;
+  margin-right: 8px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.price {
+  margin-left: 4px;
+}
+
+.price-symbol,
+.price-amount {
+  font-weight: 600;
+}
+
+/* STICKY NAVIGATION - FULL WIDTH AND GLOBAL */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Menu container - full width with centered content */
+.sticky-nav .menu {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  height: 80px;
+  padding: 0 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo section - proper vertical alignment */
+.sticky-nav .menu .nav-left {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.sticky-nav .menu .brand-logo {
+  margin-top: -8px;
+  width: 115px;
+  height: 45px;
+  display: block;
+  object-fit: contain;
+}
+
+/* Navigation links */
+.sticky-nav .menu .links {
+  display: flex;
+  gap: 32px;
+  flex-direction: row;
+  align-items: center;
+  color: #003459;
+}
+
+.sticky-nav .menu .links .login-button {
+  background: #3776cc;
+  color: #f8f8ff;
+  padding: 8px 24px;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.sticky-nav .menu .links .login-button:hover {
+  background: #2c5fa8;
+}
+
+.sticky-nav .menu .links .user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.sticky-nav .menu .links .user-avatar:hover {
+  transform: scale(1.05);
+}
+
+/* Link styling */
+.sticky-nav a {
+  text-decoration: none;
+  color: #003459;
+  font-weight: 500;
+  font-size: 15px;
+  transition: color 0.2s;
+}
+
+.sticky-nav a:hover {
+  color: #1976d2;
+}
+
+.sticky-nav .hover-line a {
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.sticky-nav .underline {
+  border-bottom: 1px solid #1976d2;
+  padding-bottom: 1px;
+}
+
+.sticky-nav .hover-line::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #1976d2;
+  transform: scaleX(0);
+  transition: transform 0.25s ease-in-out;
+  transform-origin: left;
+}
+
+.sticky-nav .hover-line:hover::after {
+  transform: scaleX(1);
+}
+
+/* HOME NAVBAR CONTENT SECTION */
 .home-navbar {
   position: relative;
   width: 100%;
   height: auto;
   display: flex;
-  background: transparent !important;
-}
-
-.home-navbar .navbar-container {
-  position: relative;
-  margin-top: 35px;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.home-navbar .navbar-container .menu {
-  position: relative;
-  height: 100px;
-  width: 1440px;
-  padding: 10px 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  background: transparent !important;
-}
-/* Navbar logo positioning */
-.home-navbar .navbar-container .menu .brand-logo,
-.other-navbar .navbar-container .menu .brand-logo {
-  margin-top: 6px;
-  width: 125px;
-  height: 50px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  position: relative;
-  top: 0;
-  left: 0;
-}
-
-.home-navbar .navbar-container .menu .links {
-  min-width: 700px;
-  display: flex;
-  gap: 48px;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--Primary-Color-Dark-Blue, #003459);
-}
-
-.home-navbar .navbar-container .menu .links .login-button {
-  background: #3776cc;
-  color: #f8f8ff;
-}
-.home-navbar .navbar-container .menu .links .user-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 24px;
-}
-.home-navbar a {
-  text-decoration: none;
-}
-
-.home-navbar .hover-line a {
-  color: var(--Primary-Color-Dark-Blue, #003459);
-  z-index: 100;
-}
-
-.home-navbar .underline {
-  display: block;
-  content: "";
-  border-bottom: solid 2px #1976d2;
-}
-
-.home-navbar .hover-line::after {
-  display: block;
-  content: "";
-  border-bottom: solid 2px #1976d2;
-  transform: scaleX(0);
-  transition: transform 250ms ease-in-out;
-}
-
-.home-navbar div.hover-line::after {
-  transform-origin: 0% 50%;
-}
-
-.home-navbar .navbar-container .header-frame {
-  position: relative;
-  margin-top: 30px;
-  height: 444px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.home-navbar .navbar-container .header-frame .detail {
-  width: 510px;
-  display: flex;
-  flex-direction: column;
-}
-
-.home-navbar .navbar-container .header-frame .detail .head-main-txt {
-  width: 450px;
-  height: 150px;
-  font-size: 50px;
-  font-family: "Roboto Serif";
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: -0.75px;
-}
-
-.home-navbar .navbar-container .header-frame .detail .wel-txt {
-  width: 510px;
-  height: 42px;
-  font-size: 20px;
-  font-family: "Roboto Serif";
-  font-style: normal;
-  font-weight: 200;
-  line-height: normal;
-  letter-spacing: -0.54px;
-}
-
-.home-navbar .navbar-container .header-frame .detail .signup {
-  margin-top: 73px;
-}
-.home-navbar .navbar-container .header-frame .detail .signup .signup-button {
-  width: 210px;
-  height: 60px;
-  border-radius: 4px;
-  background: #1976d2;
-  text-align: center;
-  font-family: Poppins;
-  font-size: 17px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  color: #f8f8ff;
-}
-.home-navbar .navbar-container .logo-frame {
-  position: relative;
-  width: 944px;
-  height: 700px;
   overflow: visible;
 }
 
+.home-navbar .navbar-container {
+  overflow: visible;
+  position: relative;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  max-width: 1440px;
+}
+
+/* Header frame - hero section */
+.home-navbar .navbar-container .header-frame {
+  position: relative;
+  margin-top: 70px;
+  min-height: 500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 80px;
+}
+
+.home-navbar .navbar-container .header-frame .detail {
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Main heading text */
+.home-navbar .navbar-container .header-frame .detail .head-main-txt {
+  max-width: 520px;
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: #003459;
+  margin-bottom: 20px;
+}
+
+/* Welcome text */
+.home-navbar .navbar-container .header-frame .detail .wel-txt {
+  max-width: 510px;
+  font-size: 18px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #667085;
+  margin-bottom: 40px;
+}
+
+/* Signup section */
+.home-navbar .navbar-container .header-frame .detail .signup {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.home-navbar .navbar-container .header-frame .detail .signup .signup-button {
+  width: 210px;
+  height: 56px;
+  border-radius: 990px;
+  padding: 12px 28px;
+  background: #1976d2;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 600;
+  color: #f8f8ff;
+  text-transform: none;
+  transition: all 0.3s ease;
+}
+
+.home-navbar
+  .navbar-container
+  .header-frame
+  .detail
+  .signup
+  .signup-button:hover {
+  background: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+}
+
+.shop-button {
+  width: 200px;
+  height: 50px;
+  border: 2px solid #2563eb;
+  color: #2563eb;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-transform: none;
+  font-family: Poppins;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.shop-button:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+/* Logo/Image frame - aligned with heading */
+.home-navbar .navbar-container .logo-frame {
+  flex: 1;
+  max-width: 650px;
+  height: auto;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
 .home-navbar .navbar-container .logo-frame .logo-img {
-  position: absolute;
-  top: -50px;
-  left: 0;
-  width: auto;
-  height: 500px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .home-navbar .navbar-container .logo-frame .logo-img img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  height: auto;
   object-fit: contain;
-  display: block;
 }
 
+/* OTHER NAVBAR (for other pages) */
 .other-navbar {
   width: 100%;
   height: 200px;
@@ -173,8 +291,10 @@
 .other-navbar .navbar-container .menu {
   position: relative;
   height: 100px;
-  width: 1440px;
-  padding: 10px 0;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 10px 80px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -188,24 +308,26 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  color: var(--Primary-Color-Dark-Blue, #003459);
+  color: #003459;
 }
 
 .other-navbar .navbar-container .menu .links .login-button {
   background: #3776cc;
   color: #f8f8ff;
 }
+
 .other-navbar .navbar-container .menu .links .user-avatar {
   width: 50px;
   height: 50px;
   border-radius: 24px;
 }
+
 .other-navbar a {
   text-decoration: none;
 }
 
 .other-navbar .hover-line a {
-  color: var(--Primary-Color-Dark-Blue, #003459);
+  color: #003459;
   z-index: 100;
 }
 
@@ -227,8 +349,7 @@
   transform-origin: 0% 50%;
 }
 
-/* BASKET */
-
+/* BASKET STYLES */
 .basket-frame {
   position: relative;
   padding: 10px 4px 0px 4px;
@@ -360,4 +481,55 @@
   height: 260px;
   display: flex;
   flex-direction: column;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1400px) {
+  .sticky-nav .menu {
+    padding: 0 40px;
+  }
+
+  .home-navbar .navbar-container .header-frame {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .sticky-nav .menu {
+    padding: 0 24px;
+  }
+
+  .sticky-nav .menu .links {
+    gap: 24px;
+  }
+
+  .home-navbar .navbar-container .header-frame {
+    padding: 0 24px;
+    flex-direction: column;
+  }
+
+  .home-navbar .navbar-container .header-frame .detail {
+    flex-direction: column;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sticky-nav .menu {
+    height: auto;
+    padding: 12px 16px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sticky-nav .menu .links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .home-navbar .navbar-container .header-frame {
+    padding: 0 16px;
+    margin-top: 20px;
+  }
 }

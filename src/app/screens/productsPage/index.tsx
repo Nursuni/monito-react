@@ -4,8 +4,6 @@ import ChosenProduct from "./ChosenProduct";
 import Products from "./Products";
 import { CartItem } from "../../../lib/types/search";
 
-import UsefulKnowledge from "./UsefulKnowledge";
-
 interface ProductsPageProps {
   cartItems: CartItem[];
   onAdd: (item: CartItem) => void;
@@ -32,7 +30,6 @@ export default function ProductsPage(props: ProductsPageProps) {
             onDelete={onDelete}
             onDeleteAll={onDeleteAll}
           />
-          <UsefulKnowledge />
         </Route>
       </Switch>
     </div>

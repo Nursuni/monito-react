@@ -58,7 +58,7 @@
 }
 .homepage .popular-dishes-frame .popular-section .category-title {
   text-align: center;
-  font-family: "Roboto Serif";
+  font-family: "Poppins", sans-serif;
   font-size: 36px;
   font-weight: 600;
   line-height: normal;
@@ -262,7 +262,7 @@
 
 .homepage .active-users-frame .category-title {
   text-align: center;
-  font-family: "Roboto Serif";
+  font-family: "Poppins", sans-serif;
   font-size: 36px;
   font-weight: 600;
   line-height: normal;
@@ -288,7 +288,7 @@
 }
 
 .active-users-frame .member-nickname {
-  font-family: "Roboto Serif";
+  font-family: "Poppins", sans-serif;
   font-size: 12px;
   font-weight: 600;
   text-align: center;

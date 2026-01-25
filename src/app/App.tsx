@@ -30,7 +30,6 @@ import { sweetErrorHandling, sweetTopSuccessAlert } from "../lib/sweetAlert";
 import { Messages } from "../lib/config";
 import MemberService from "./services/MemberService";
 import { useGlobals } from "./hooks/useGlobals";
-import ServicePage from "./screens/servicePage/Service";
 import AboutPage from "./screens/aboutPage/AboutPage";
 import OfferPopup from "./components/headers/OfferPopUp";
 
@@ -112,9 +111,6 @@ function App() {
         </Route>
         <Route path="/help">
           <HelpPage />
-        </Route>
-        <Route path="/services">
-          <ServicePage />
         </Route>
         <Route path="/aboutus">
           <AboutPage />

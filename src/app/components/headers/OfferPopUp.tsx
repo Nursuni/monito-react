@@ -59,8 +59,8 @@ export default function OfferPopup() {
       PaperProps={{
         sx: {
           borderRadius: 4,
-          p: { xs: 3, sm: 4 },
-          width: { xs: "90%", sm: 420 },
+          p: { xs: 1, sm: 2 },
+          width: { xs: "90%", sm: 460 },
           boxShadow: "0px 10px 30px rgba(0,0,0,0.1)",
         },
       }}

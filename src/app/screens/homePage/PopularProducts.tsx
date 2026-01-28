@@ -1,21 +1,18 @@
 import React from "react";
-import { Container, Stack, Box } from "@mui/material";
+import { Stack, Box } from "@mui/material";
+import AspectRatio from "@mui/joy/AspectRatio";
 import Card from "@mui/joy/Card";
-import CardCover from "@mui/joy/CardCover";
-import CardContent from "@mui/joy/CardContent";
 import Typography from "@mui/joy/Typography";
 import { CssVarsProvider } from "@mui/joy/styles/CssVarsProvider";
 import CardOverflow from "@mui/joy/CardOverflow";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 import { createSelector } from "@reduxjs/toolkit";
-import { retrievePopularProductts } from "./selector";
 import { useSelector } from "react-redux";
+import { retrievePopularProductts } from "./selector";
 import { Product } from "../../../lib/types/product";
 import { serverApi } from "../../../lib/config";
-
-/**REDUX SLICE & SELECTOR */
 
 const popularProductsRetriever = createSelector(
   retrievePopularProductts,
@@ -24,82 +21,123 @@ const popularProductsRetriever = createSelector(
 
 export default function PopularProducts() {
   const { popularProducts } = useSelector(popularProductsRetriever);
-  console.log("popularProducts: retrievePopularProductts", popularProducts);
 
   return (
-    <Stack className="popular-products-frame">
-      <Container>
-        <Stack className="popular-section">
-          <Box className="category-title">Popular Products</Box>
-          <Stack className="cards-frame" direction="row" spacing={2}>
-            {popularProducts.length !== 0 ? (
-              popularProducts.map((product: Product) => {
-                const imagePath = `${serverApi}/${product.productImages[0]}`;
-                return (
-                  <CssVarsProvider key={product._id}>
-                    <Card className="card">
-                      <CardCover>
-                        <img src={imagePath} alt="dish-img" />
-                      </CardCover>
-                      <CardCover className={"card-cover"} />
-                      <CardContent sx={{ justifyContent: "flex-end" }}>
-                        <Stack
-                          flexDirection={"row"}
-                          justifyContent={"space-between"}
-                        >
+    <div className="py-10 px-4">
+      <Box className="max-w-[1300px] mx-auto">
+        <Stack className="space-y-6">
+          {/* Header */}
+          <Box className="flex justify-between items-center">
+            <Box>
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                Most viewed
+              </p>
+              <h2 className="text-2xl font-bold text-gray-900">
+                Popular products
+              </h2>
+            </Box>
+          </Box>
+
+          {/* Cards */}
+          <Box className="flex gap-6 overflow-x-auto pb-4 justify-center">
+            <CssVarsProvider>
+              {popularProducts.length !== 0 ? (
+                popularProducts.map((product: Product) => {
+                  const imagePath = `${serverApi}/${product.productImages[0]}`;
+
+                  return (
+                    <Card
+                      key={product._id}
+                      variant="outlined"
+                      className="group cursor-pointer flex-shrink-0"
+                      sx={{
+                        width: "260px !important",
+                        backgroundColor: "#fafafa",
+                        borderRadius: "14px",
+                        overflow: "hidden",
+                        border: "1px solid #e5e7eb",
+                        boxShadow: "none",
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          backgroundColor: "#ffffff",
+                          borderColor: "#93c5fd",
+                          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                          transform: "translateY(-4px)",
+                        },
+                      }}
+                    >
+                      {/* Image */}
+                      <CardOverflow sx={{ padding: 0 }}>
+                        <AspectRatio ratio="1">
+                          <img
+                            src={imagePath}
+                            alt={product.productName}
+                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                        </AspectRatio>
+                      </CardOverflow>
+
+                      {/* Content */}
+                      <CardOverflow
+                        variant="soft"
+                        sx={{
+                          backgroundColor: "#ffffff",
+                          padding: "14px",
+                        }}
+                      >
+                        <Stack className="space-y-2.5">
                           <Typography
-                            level="h2"
-                            fontSize="lg"
-                            textColor="#fff"
-                            mb={1}
+                            sx={{
+                              fontSize: "15px",
+                              fontWeight: 700,
+                              color: "#111827",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
                           >
                             {product.productName}
                           </Typography>
-                          <Typography
-                            sx={{
-                              fontWeight: "md",
-                              color: "neutral.300",
-                              textAlign: "center",
-                              display: "flex",
-                            }}
-                          >
-                            {product.productViews}
-                            <VisibilityIcon
-                              sx={{ fontSize: 25, marginLeft: "5px" }}
-                            />
-                          </Typography>
+
+                          <Box className="flex items-center gap-1.5 text-gray-500">
+                            <VisibilityIcon sx={{ fontSize: 16 }} />
+                            <Typography
+                              sx={{ fontSize: "13px", fontWeight: 500 }}
+                            >
+                              {product.productViews}
+                            </Typography>
+                          </Box>
+
+                          <Box className="flex items-center justify-between pt-2.5 border-t border-gray-200">
+                            <Typography
+                              sx={{
+                                fontSize: "20px",
+                                fontWeight: 700,
+                                color: "#2563eb",
+                              }}
+                            >
+                              ${product.productPrice}
+                            </Typography>
+
+                            <button className="flex items-center gap-1.5 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold text-sm shadow-sm hover:shadow-md transition-all">
+                              <ShoppingCartOutlinedIcon sx={{ fontSize: 18 }} />
+                              Add
+                            </button>
+                          </Box>
                         </Stack>
-                      </CardContent>
-                      <CardOverflow
-                        sx={{
-                          display: "flex",
-                          gap: 1.5,
-                          py: 1.5,
-                          px: "var(--Card-padding)",
-                          borderTop: "1px solid",
-                          height: "68px",
-                        }}
-                      >
-                        <Typography
-                          startDecorator={<DescriptionOutlinedIcon />}
-                          textColor="neutral.300"
-                        >
-                          {product.productDesc}
-                        </Typography>
                       </CardOverflow>
                     </Card>
-                  </CssVarsProvider>
-                );
-              })
-            ) : (
-              <Box className="no-data">
-                {" "}
-                Popular products are not available!{" "}
-              </Box>
-            )}
-          </Stack>
+                  );
+                })
+              ) : (
+                <Box className="w-full text-center py-16 text-lg font-semibold text-gray-400">
+                  Popular products are not available!
+                </Box>
+              )}
+            </CssVarsProvider>
+          </Box>
         </Stack>
-      </Container>
-    </Stack>
+      </Box>
+    </div>
   );
 }

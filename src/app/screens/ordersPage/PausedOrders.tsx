@@ -1,5 +1,4 @@
 import TabPanel from "@mui/lab/TabPanel";
-import { Box, Button, Stack, Typography } from "@mui/material";
 import { createSelector } from "@reduxjs/toolkit";
 import { retrievePausedOrders } from "./selector";
 import { useSelector } from "react-redux";
@@ -15,7 +14,7 @@ import OrderService from "../../services/OrderService";
 /** REDUX SELECTOR */
 const pausedOrdersRetriever = createSelector(
   retrievePausedOrders,
-  (pausedOrders) => ({ pausedOrders })
+  (pausedOrders) => ({ pausedOrders }),
 );
 
 interface PausedOrdersProps {
@@ -61,7 +60,7 @@ export default function PausedOrders(props: PausedOrdersProps) {
       };
 
       const confirmation = window.confirm(
-        "Do you want to proceed with payment?"
+        "Do you want to proceed with payment?",
       );
       if (confirmation) {
         const order = new OrderService();
@@ -78,133 +77,133 @@ export default function PausedOrders(props: PausedOrdersProps) {
   };
   return (
     <TabPanel value={"1"}>
-      <Stack>
+      <div className="space-y-5">
         {pausedOrders?.map((order: Order) => (
-          <Box
+          <div
             key={order._id}
-            className="order-main-box"
-            display="flex"
-            flexDirection="column"
+            className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200"
           >
-            {/* Dish list */}
-            <Box
-              className="order-box-scroll"
-              display="flex"
-              flexDirection="column"
-            >
-              {order?.orderItems?.map((item: OrderItem) => {
-                const product = order.productData.filter(
-                  (ele: Product) => ele._id === item.productId
-                )[0];
+            {/* Product List Section */}
+            <div className="p-5">
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
+                Order Items
+              </h3>
+              <div className="space-y-3 max-h-80 overflow-y-auto">
+                {order?.orderItems?.map((item: OrderItem) => {
+                  const product = order.productData.filter(
+                    (ele: Product) => ele._id === item.productId,
+                  )[0];
 
-                const imagePath = `${serverApi}/${product.productImages[0]}`;
+                  const imagePath = `${serverApi}/${product.productImages[0]}`;
 
-                return (
-                  <Box
-                    key={item._id}
-                    className="orders-name-price"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                  >
-                    <img
-                      src={imagePath}
-                      className="order-dish-img"
-                      alt={product.productName}
-                    />
-
-                    <p className="title-dish">{product.productName}</p>
-
-                    <Box
-                      className="price-box"
-                      display="flex"
-                      alignItems="center"
-                      gap={1}
+                  return (
+                    <div
+                      key={item._id}
+                      className="flex items-center gap-4 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
                     >
-                      <p>${item.itemPrice}</p>
-                      <img src="/icons/close.svg" className="order-icon" />
-                      <p>{item.itemQuantity}</p>
-                      <img src="/icons/pause.svg" className="order-icon" />
-                      <p>${item.itemQuantity * item.itemPrice}</p>
-                    </Box>
-                  </Box>
-                );
-              })}
-            </Box>
+                      {/* Product Image */}
+                      <img
+                        src={imagePath}
+                        className="w-16 h-16 object-cover rounded-md flex-shrink-0"
+                        alt={product.productName}
+                      />
 
-            {/* Total price */}
-            <Box className="total-price-box">
-              <Box
-                className="total-price-line"
-                display="flex"
-                alignItems="center"
-                gap={2}
-                ml={4}
-              >
-                <Typography>Product cost:</Typography>
-                <Typography>
-                  ${order.orderTotal - order.orderDelivery}
-                </Typography>
+                      {/* Product Name */}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-gray-900 truncate">
+                          {product.productName}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          ${item.itemPrice} each
+                        </p>
+                      </div>
 
-                <img src="/icons/plus.svg" className="order-icon" />
+                      {/* Quantity & Price */}
+                      <div className="flex items-center gap-4 text-sm">
+                        <div className="text-center">
+                          <p className="text-gray-500 text-xs">Qty</p>
+                          <p className="font-semibold text-gray-900">
+                            {item.itemQuantity}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-gray-500 text-xs">Subtotal</p>
+                          <p className="font-bold text-gray-900">
+                            ${item.itemQuantity * item.itemPrice}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
-                <Typography>Delivery cost:</Typography>
-                <Typography>${order.orderDelivery}</Typography>
+            {/* Divider */}
+            <div className="border-t border-gray-200"></div>
 
-                <img src="/icons/pause.svg" className="order-icon" />
+            {/* Summary & Actions Section */}
+            <div className="bg-gray-50 p-5">
+              {/* Price Summary */}
+              <div className="space-y-2 mb-4">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Product Cost</span>
+                  <span className="font-medium text-gray-900">
+                    ${order.orderTotal - order.orderDelivery}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Delivery Fee</span>
+                  <span className="font-medium text-gray-900">
+                    ${order.orderDelivery}
+                  </span>
+                </div>
+                <div className="border-t border-gray-300 pt-2 mt-2">
+                  <div className="flex justify-between">
+                    <span className="font-semibold text-gray-900">Total</span>
+                    <span className="font-bold text-xl text-gray-900">
+                      ${order.orderTotal}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-                <Typography>Total:</Typography>
-                <Typography>${order.orderTotal}</Typography>
-              </Box>
-
-              <Box display="flex" gap={2}>
-                <Button
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <button
                   value={order._id}
-                  variant="contained"
-                  className="cancel-btn"
                   onClick={deleteOrderHandler}
-                  sx={{
-                    borderRadius: "10px",
-                    backgroundColor: "#D2B68C",
-                    color: "#343434",
-                    "&:hover": { backgroundColor: "#C8A97C" },
-                  }}
+                  className="flex-1 px-4 py-2.5 bg-white border-2 border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-100 hover:border-gray-400 transition-all"
                 >
                   Cancel
-                </Button>
-
-                <Button
+                </button>
+                <button
                   value={order._id}
-                  variant="contained"
-                  className="payment-btn"
                   onClick={processOrderHandler}
-                  sx={{
-                    borderRadius: "10px",
-                    backgroundColor: "#4caf50",
-                    color: "#ffffff",
-                    "&:hover": { backgroundColor: "#45a049" },
-                  }}
+                  className="flex-1 px-4 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-all shadow-sm"
                 >
-                  Payment
-                </Button>
-              </Box>
-            </Box>
-          </Box>
+                  Proceed to Payment
+                </button>
+              </div>
+            </div>
+          </div>
         ))}
+
+        {/* Empty State */}
         {!pausedOrders ||
           (pausedOrders.length === 0 && (
-            <Box
-              display={"flex"}
-              flexDirection={"row"}
-              justifyContent={"center"}
-            >
+            <div className="flex flex-col items-center justify-center py-12">
               <img
                 src={"/icons/noimage-list.svg"}
-                style={{ width: 300, height: 300 }}
+                className="w-48 h-48 opacity-40 mb-4"
+                alt="No orders"
               />
-            </Box>
+              <p className="text-gray-500 text-center">
+                No paused orders found
+              </p>
+            </div>
           ))}
-      </Stack>
+      </div>
     </TabPanel>
   );
 }

@@ -1,10 +1,9 @@
-import { Box, Container, Stack } from "@mui/material";
+import { Container } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { Settings } from "./Settings";
-import "../../../css/userPage.css";
 import { useHistory } from "react-router-dom";
 import { useGlobals } from "../../hooks/useGlobals";
 import { serverApi } from "../../../lib/config";
@@ -15,72 +14,66 @@ export default function UserPage() {
   const { authMember } = useGlobals();
 
   if (!authMember) history.push("/");
-  return (
-    <div className={"user-page"}>
-      <Container>
-        <Stack className={"my-page-frame"}>
-          <Stack className={"my-page-left"}>
-            <Box display={"flex"} flexDirection={"column"}>
-              <Box className={"menu-name"}>Modify Member Details</Box>
-              <Box className={"menu-content"}>
-                <Settings />
-              </Box>
-            </Box>
-          </Stack>
 
-          <Stack className={"my-page-right"}>
-            <Box className={"order-info-box"}>
-              <Box
-                display={"flex"}
-                flexDirection={"column"}
-                alignItems={"center"}
-              >
-                <div className={"order-user-img"}>
-                  <img
-                    src={
-                      authMember?.memberImage
-                        ? `${serverApi}/${authMember.memberImage}`
-                        : "/icons/default-user.svg"
-                    }
-                    className={"order-user-avatar"}
-                  />
-                  <div className={"order-user-icon-box"}>
-                    <img
-                      src={
-                        authMember?.memberType === MemberType.ADMIN
-                          ? "/icons/restaurant-badge.svg"
-                          : "/icons/user-badge.svg"
-                      }
-                    />
-                  </div>
-                </div>
-                <span className={"order-user-name"}>
-                  {authMember?.memberNick}
-                </span>
-                <span className={"order-user-prof"}>
-                  {authMember?.memberType}
-                </span>
-                <span className={"order-user-prof"}>
-                  {authMember?.memberAddress
-                    ? authMember.memberAddress
-                    : "no address"}
-                </span>
-              </Box>
-              <Box className={"user-media-box"}>
-                <FacebookIcon />
-                <InstagramIcon />
-                <TelegramIcon />
-                <YouTubeIcon />
-              </Box>
-              <p className={"user-desc"}>
-                {" "}
-                {authMember?.memberDesc
-                  ? authMember.memberDesc
-                  : "no description"}
-              </p>
-            </Box>
-          </Stack>
-        </Stack>
+  return (
+    <div className="min-h-screen bg-gray-50 py-10">
+      <Container>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* LEFT */}
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow p-6">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800">
+              Modify Member Details
+            </h2>
+            <Settings />
+          </div>
+
+          {/* RIGHT */}
+          <div className="bg-white rounded-2xl shadow p-6 flex flex-col items-center">
+            {/* Avatar */}
+            <div className="relative mb-4">
+              <img
+                src={
+                  authMember?.memberImage
+                    ? `${serverApi}/${authMember.memberImage}`
+                    : "/icons/default-user.svg"
+                }
+                className="w-28 h-28 rounded-full object-cover border"
+              />
+              <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow">
+                <img
+                  src={
+                    authMember?.memberType === MemberType.ADMIN
+                      ? "/icons/restaurant-badge.svg"
+                      : "/icons/user-badge.svg"
+                  }
+                  className="w-6 h-6"
+                />
+              </div>
+            </div>
+
+            {/* Info */}
+            <h3 className="text-lg font-semibold text-gray-800">
+              {authMember?.memberNick}
+            </h3>
+            <p className="text-sm text-gray-500">{authMember?.memberType}</p>
+            <p className="text-sm text-gray-500 mt-1">
+              {authMember?.memberAddress || "no address"}
+            </p>
+
+            {/* Social */}
+            <div className="flex gap-4 text-gray-600 mt-4">
+              <FacebookIcon className="cursor-pointer hover:text-blue-600" />
+              <InstagramIcon className="cursor-pointer hover:text-pink-500" />
+              <TelegramIcon className="cursor-pointer hover:text-sky-500" />
+              <YouTubeIcon className="cursor-pointer hover:text-red-500" />
+            </div>
+
+            {/* Description */}
+            <p className="text-sm text-gray-600 text-center mt-4">
+              {authMember?.memberDesc || "no description"}
+            </p>
+          </div>
+        </div>
       </Container>
     </div>
   );

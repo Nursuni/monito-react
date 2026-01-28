@@ -62,7 +62,7 @@
   flex-wrap: nowrap;
 }
 
-.order-main-box .order-box-scroll .orders-name-price .order-dish-img {
+.order-main-box .order-box-scroll .orders-name-price .order-product-img {
   width: 50px;
   height: 47px;
   border-radius: 50%;
@@ -70,7 +70,7 @@
   object-fit: cover;
 }
 
-.order-main-box .order-box-scroll .title-dish {
+.order-main-box .order-box-scroll .title-product {
   flex: 1;
   min-width: 0;
   align-items: center;

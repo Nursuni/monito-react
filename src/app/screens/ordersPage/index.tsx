@@ -1,29 +1,27 @@
-import { Box, Container, Stack, TextField, Typography } from "@mui/material";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import { SyntheticEvent, useEffect, useState } from "react";
-import { TabContext, TabPanel } from "@mui/lab";
-import TabList from "@mui/lab/TabList";
+import { Box, Container, Stack, TextField, Tabs, Tab } from "@mui/material";
+import { TabContext } from "@mui/lab";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { useHistory } from "react-router-dom";
+
 import PausedOrders from "./PausedOrders";
 import ProcessOrders from "./ProcessOrders";
 import FinishedOrders from "./FinishedOrders";
-import Divider from "../../components/divider";
-import { useDispatch } from "react-redux";
-import { Dispatch } from "@reduxjs/toolkit";
+
 import { setPausedOrders, setProcessOrders, setFinishedOrders } from "./slice";
-import { Order, OrderInquiry } from "../../../lib/types/order";
+import { OrderInquiry } from "../../../lib/types/order";
 import { OrderStatus } from "../../../lib/enums/order.enum";
 import OrderService from "../../services/OrderService";
 import { useGlobals } from "../../hooks/useGlobals";
-import { useHistory } from "react-router-dom";
 import { serverApi } from "../../../lib/config";
 import { MemberType } from "../../../lib/enums/member.enum";
 
-/**REDUX SLICE & SELECTOR */
+/** REDUX */
 const actionDispatch = (dispatch: Dispatch) => ({
-  setPausedOrders: (data: Order[]) => dispatch(setPausedOrders(data)),
-  setProcessOrders: (data: Order[]) => dispatch(setProcessOrders(data)),
-  setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
+  setPausedOrders: (data: any[]) => dispatch(setPausedOrders(data)),
+  setProcessOrders: (data: any[]) => dispatch(setProcessOrders(data)),
+  setFinishedOrders: (data: any[]) => dispatch(setFinishedOrders(data)),
 });
 
 export default function OrdersPage() {
@@ -31,182 +29,142 @@ export default function OrdersPage() {
   const history = useHistory();
   const { setPausedOrders, setProcessOrders, setFinishedOrders } =
     actionDispatch(useDispatch());
+
   const [value, setValue] = useState("1");
-  const [orderInquiry, setOrderInquiry] = useState<OrderInquiry>({
+  const [orderInquiry] = useState<OrderInquiry>({
     page: 1,
     limit: 5,
     orderStatus: OrderStatus.PAUSE,
   });
+
   useEffect(() => {
     const order = new OrderService();
+
     order
       .getMyOrder({ ...orderInquiry, orderStatus: OrderStatus.PAUSE })
-      .then((data) => setPausedOrders(data))
-      .catch((err) => console.log(err));
+      .then(setPausedOrders)
+      .catch(() => {});
 
     order
       .getMyOrder({ ...orderInquiry, orderStatus: OrderStatus.PROCESS })
-      .then((data) => setProcessOrders(data))
-      .catch((err) => console.log(err));
+      .then(setProcessOrders)
+      .catch(() => {});
 
     order
       .getMyOrder({ ...orderInquiry, orderStatus: OrderStatus.FINISH })
-      .then((data) => setFinishedOrders(data))
-      .catch((err) => console.log(err));
-  }, [orderInquiry, orderBuilder]);
-  /** HANDLERS */
+      .then(setFinishedOrders)
+      .catch(() => {});
+  }, [orderBuilder]);
 
-  const handleChange = (e: SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
+  if (!authMember) {
+    history.push("/");
+    return null;
+  }
 
   return (
-    <div
-      className="order-page"
-      style={{ backgroundColor: "white", minHeight: "100vh" }}
-    >
-      <Container className="order-container" sx={{ mb: 10 }}>
-        <Stack className="order-left">
-          <TabContext value={value}>
-            {/* Tabs header */}
-            <Box
-              className="order-nav-frame"
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                borderRadius: "12px",
-                padding: "8px 0",
-                mb: 3,
-              }}
-            >
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+    <div className="min-h-screen bg-white">
+      <Container className="py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          {/* LEFT — ORDERS */}
+          <div className="lg:col-span-2">
+            <TabContext value={value}>
+              {/* TABS */}
+              <Box className="flex justify-center mb-8">
                 <Tabs
                   value={value}
-                  onChange={handleChange}
-                  aria-label="order tabs"
-                  className="table_list"
-                  centered
+                  onChange={(e, v) => setValue(v)}
+                  TabIndicatorProps={{ style: { display: "none" } }}
+                  className="border border-gray-200 rounded-full"
                 >
-                  <Tab label="PAUSED ORDERS" value="1" />
-                  <Tab label="PROCESS ORDERS" value="2" />
-                  <Tab label="FINISHED ORDERS" value="3" />
+                  {["Paused", "Processing", "Finished"].map((label, i) => {
+                    const val = String(i + 1);
+                    return (
+                      <Tab
+                        key={val}
+                        value={val}
+                        label={label}
+                        className={`px-6 py-2 text-sm font-semibold rounded-full transition
+                          ${
+                            value === val
+                              ? "bg-black text-white"
+                              : "text-gray-500"
+                          }`}
+                      />
+                    );
+                  })}
                 </Tabs>
               </Box>
-            </Box>
 
-            {/* Tab content */}
-            <Stack className="order-main-content">
-              <PausedOrders setValue={setValue} />
-              <ProcessOrders setValue={setValue} />
-              <FinishedOrders />
-            </Stack>
-          </TabContext>
-        </Stack>
-
-        <Stack className={"order-page-right"}>
-          <Box className={"order-info-box"}>
-            <Box
-              display={"flex"}
-              flexDirection={"column"}
-              alignItems={"center"}
-            >
-              <div className={"order-user-img"}>
-                <img src={"/img/justin.webp"} className={"order-user-avatar"} />
-                <div className={"order-user-icon-box"}>
-                  <img src={"/icons/user-badge.svg"} />
-                </div>
+              {/* CONTENT — NO BACKGROUND */}
+              <div className="space-y-6">
+                {value === "1" && <PausedOrders setValue={setValue} />}
+                {value === "2" && <ProcessOrders setValue={setValue} />}
+                {value === "3" && <FinishedOrders />}
               </div>
-              <span className={"order-user-name"}>
-                {authMember?.memberNick}
-              </span>
-              <span className={"order-user-prof"}>
-                {authMember?.memberType}
-              </span>
-            </Box>
-            <Divider width="332" height="1" bg="#A1A1A1" />
-            <Box
-              className="order-user-desc"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                padding: "16px",
-                backgroundColor: "#f8f9fa",
-                borderRadius: "10px",
-                border: "1px solid #e9ecef",
-              }}
-            >
-              <img
-                src={
-                  authMember?.memberImage
-                    ? `${serverApi}/${authMember.memberImage}`
-                    : "/icons/default-use.svg"
-                }
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "8px",
-                  objectFit: "cover",
-                }}
-              />
-              <img
-                src={
-                  authMember?.memberType === MemberType.ADMIN
-                    ? "/icons/restaurant-badge.svg"
-                    : "/icons/user-badge.svg"
-                }
-                style={{ width: "20px", height: "20px" }}
-              />
-              <p
-                className="user-desc"
-                style={{
-                  margin: 0,
-                  fontSize: "14px",
-                  color: "#495057",
-                  fontWeight: 500,
-                  flex: 1,
-                }}
-              >
-                {authMember?.memberAddress
-                  ? authMember.memberAddress
-                  : "no address"}
-              </p>
-            </Box>
-          </Box>
+            </TabContext>
+          </div>
 
-          <Box className={"order-payment-box"}>
-            <Stack spacing={2}>
-              <TextField label="Cardholder Name" variant="outlined" fullWidth />
+          {/* RIGHT — USER & PAYMENT */}
+          <div className="space-y-8">
+            {/* USER CARD */}
+            <div className="border border-gray-200 rounded-2xl p-6">
+              <div className="relative w-32 h-32 mx-auto">
+                <img
+                  src={
+                    authMember.memberImage
+                      ? `${serverApi}/${authMember.memberImage}`
+                      : "/icons/default-use.svg"
+                  }
+                  className="w-full h-full rounded-full object-cover"
+                />
+
+                {/* ADDRESS ON IMAGE */}
+                <div className="absolute bottom-0 w-full bg-black/60 text-white text-[11px] text-center py-1 rounded-b-full">
+                  {authMember.memberAddress || "no address"}
+                </div>
+
+                {/* BADGE */}
+                <img
+                  src={
+                    authMember.memberType === MemberType.ADMIN
+                      ? "/icons/restaurant-badge.svg"
+                      : "/icons/user-badge.svg"
+                  }
+                  className="absolute -bottom-2 -right-2 w-7 h-7"
+                />
+              </div>
+
+              <div className="text-center mt-4">
+                <p className="font-semibold text-gray-900">
+                  {authMember.memberNick}
+                </p>
+                <p className="text-xs text-gray-500">{authMember.memberType}</p>
+              </div>
+            </div>
+
+            {/* PAYMENT CARD — WHITE & MODERN */}
+            <div className="border border-gray-200 rounded-2xl p-6 space-y-4">
+              <TextField label="Cardholder name" fullWidth variant="outlined" />
               <TextField
-                label="Card Number"
-                variant="outlined"
+                label="Card number"
                 fullWidth
                 inputProps={{ maxLength: 16 }}
               />
-              <Stack direction="row" spacing={2}>
-                <TextField
-                  label="Expiry Date"
-                  placeholder="MM/YY"
-                  variant="outlined"
-                  fullWidth
-                  inputProps={{ maxLength: 5 }}
-                />
-                <TextField
-                  label="CVV"
-                  variant="outlined"
-                  fullWidth
-                  inputProps={{ maxLength: 3 }}
-                />
-              </Stack>
-              <Box className={"user-media-box"}>
-                <img src="/icons/western-card.svg" />
-                <img src="/icons/master-card.svg" />
-                <img src="/icons/paypal-card.svg" />
-                <img src="/icons/visa-card.svg" />
-              </Box>
-            </Stack>
-          </Box>
-        </Stack>
+
+              <div className="flex gap-3">
+                <TextField label="MM / YY" fullWidth />
+                <TextField label="CVV" fullWidth />
+              </div>
+
+              <div className="flex justify-between pt-4">
+                <img src="/icons/visa-card.svg" className="h-6" />
+                <img src="/icons/master-card.svg" className="h-6" />
+                <img src="/icons/paypal-card.svg" className="h-6" />
+                <img src="/icons/western-card.svg" className="h-6" />
+              </div>
+            </div>
+          </div>
+        </div>
       </Container>
     </div>
   );

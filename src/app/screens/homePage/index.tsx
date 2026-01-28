@@ -9,15 +9,14 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { setPopularProducts, setNewProducts, setTopUsers } from "./slice";
 import { Product } from "../../../lib/types/product";
 import ProductService from "../../services/ProductService";
-import { ProductCollection } from "../../../lib/enums/product.enum";
 import MemberService from "../../services/MemberService";
 import { Member } from "../../../lib/types/member";
 
 import NewProducts from "./NewProducts";
 import PopularProducts from "./PopularProducts";
 
-import Reviews from "./Reviews";
 import MarqueeLogos from "../productsPage/Trusted-Brand";
+import HeroPetShop from "./HeroPetShop";
 
 /**REDUX SLICE & SELECTOR */
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -38,7 +37,6 @@ export default function HomePage() {
         page: 1,
         limit: 4,
         order: "productsViews",
-        productCollection: ProductCollection.FOOD,
       })
       .then((data) => {
         setPopularProducts(data);
@@ -50,7 +48,7 @@ export default function HomePage() {
         page: 1,
         limit: 4,
         order: "createdAt",
-        // productCollection: ProductCollection.DISH,
+        // productCollection: ProductCollection.product,
       })
       .then((data) => setNewProducts(data))
       .catch((err) => console.log("Err, popularProducts", err));
@@ -65,6 +63,7 @@ export default function HomePage() {
   return (
     <div className="homepage">
       <PopularProducts />
+      <HeroPetShop />
       <MarqueeLogos />
       <NewProducts />
       <Advertisement />

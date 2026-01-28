@@ -14,10 +14,11 @@ import {
 
 export function Settings() {
   const { authMember, setAuthMember } = useGlobals();
+
   const [memberImage, setMemberImage] = useState<string>(
     authMember?.memberImage
       ? `${serverApi}/${authMember.memberImage}`
-      : "/icons/default-use.svg"
+      : "/icons/default-use.svg",
   );
 
   const [memberUpdateInput, setMemberUpdateInput] = useState<MemberUpdateInput>(
@@ -27,18 +28,20 @@ export function Settings() {
       memberAddress: authMember?.memberAddress,
       memberDesc: authMember?.memberDesc,
       memberImage: authMember?.memberImage,
-    }
+    },
   );
-  /**HANDLERS */
 
+  /** HANDLERS (unchanged) */
   const memberNickHandler = async (e: T) => {
     memberUpdateInput.memberNick = e.target.value;
     setMemberUpdateInput({ ...memberUpdateInput });
   };
+
   const memberPhoneHandler = async (e: T) => {
     memberUpdateInput.memberPhone = e.target.value;
     setMemberUpdateInput({ ...memberUpdateInput });
   };
+
   const memberDescHandler = async (e: T) => {
     memberUpdateInput.memberDesc = e.target.value;
     setMemberUpdateInput({ ...memberUpdateInput });
@@ -58,7 +61,7 @@ export function Settings() {
       }
 
       const member = new MemberService();
-      const result = await member.updateMember(memberUpdateInput); // example API call
+      const result = await member.updateMember(memberUpdateInput);
       setAuthMember(result);
 
       await sweetTopSmallSuccessAlert("Modified successfully!", 700);
@@ -67,97 +70,100 @@ export function Settings() {
       sweetErrorHandling(err).then();
     }
   };
+
   const handleImageViewer = (e: T) => {
     const file = e.target.files[0];
-    console.log("file:", file);
+    const validateImageTypes = ["image/jpg", "image/jpeg", "image/png"];
 
-    const fileType = file.type,
-      validateImageTypes = ["image/jpg", "image/jpeg", "image/png"];
-
-    if (!validateImageTypes.includes(fileType)) {
+    if (!validateImageTypes.includes(file.type)) {
       sweetErrorHandling(Messages.error5).then();
     } else {
-      if (file) {
-        memberUpdateInput.memberImage = file;
-        setMemberUpdateInput({ ...memberUpdateInput });
-        setMemberImage(URL.createObjectURL(file));
-      }
+      memberUpdateInput.memberImage = file;
+      setMemberUpdateInput({ ...memberUpdateInput });
+      setMemberImage(URL.createObjectURL(file));
     }
   };
+
   return (
-    <Box className={"settings"}>
-      <Box className={"member-media-frame"}>
-        <img src={memberImage} className={"mb-image"} />
-        <div className={"media-change-box"}>
-          <span>Upload image</span>
-          <p>JPG, JPEG, PNG formats only!</p>
-          <div className={"up-del-box"}>
-            <Button component="label" onChange={handleImageViewer}>
-              <CloudDownloadIcon />
-              <input type="file" hidden />
-            </Button>
-          </div>
+    <Box className="space-y-8">
+      {/* IMAGE */}
+      <div className="flex items-center gap-6">
+        <img
+          src={memberImage}
+          className="w-28 h-28 rounded-full object-cover border shadow"
+        />
+
+        <div className="space-y-1">
+          <p className="font-medium text-gray-800">Upload image</p>
+          <p className="text-sm text-gray-500">JPG, JPEG, PNG formats only</p>
+          <Button component="label" onChange={handleImageViewer}>
+            <CloudDownloadIcon />
+            <input type="file" hidden />
+          </Button>
         </div>
-      </Box>
-      <Box className={"input-frame"}>
-        <div className={"long-input"}>
-          <label className={"spec-label"}>Username</label>
+      </div>
+
+      {/* USERNAME */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Username
+        </label>
+        <input
+          type="text"
+          value={memberUpdateInput.memberNick}
+          placeholder={authMember?.memberNick}
+          onChange={memberNickHandler}
+          className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* PHONE + ADDRESS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Phone
+          </label>
           <input
-            className={"spec-input mb-nick"}
             type="text"
-            placeholder={authMember?.memberNick}
-            value={memberUpdateInput.memberNick}
-            name="memberNick"
-            onChange={memberNickHandler}
-          />
-        </div>
-      </Box>
-      <Box className={"input-frame"}>
-        <div className={"short-input"}>
-          <label className={"spec-label"}>Phone</label>
-          <input
-            className={"spec-input mb-phone"}
-            type="text"
-            placeholder={authMember?.memberPhone ?? "no phone"}
             value={memberUpdateInput.memberPhone}
-            name="memberPhone"
+            placeholder={authMember?.memberPhone ?? "no phone"}
             onChange={memberPhoneHandler}
+            className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div className={"short-input"}>
-          <label className={"spec-label"}>Address</label>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Address
+          </label>
           <input
-            className={"spec-input  mb-address"}
             type="text"
-            placeholder={
-              authMember?.memberAddress
-                ? authMember.memberAddress
-                : "no address"
-            }
             value={memberUpdateInput.memberAddress}
-            name="memberAddress"
+            placeholder={authMember?.memberAddress ?? "no address"}
+            className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-      </Box>
-      <Box className={"input-frame"}>
-        <div className={"long-input"}>
-          <label className={"spec-label"}>Description</label>
-          <textarea
-            className={"spec-textarea mb-description"}
-            placeholder={
-              authMember?.memberDesc ? authMember.memberDesc : "no description"
-            }
-            value={memberUpdateInput.memberDesc}
-            name="memberDesc"
-            onChange={memberDescHandler}
-          />
-        </div>
-      </Box>
-      <Box className={"save-box"}>
-        <Button variant={"contained"} onClick={handleSubmitButton}>
+      </div>
+
+      {/* DESCRIPTION */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Description
+        </label>
+        <textarea
+          value={memberUpdateInput.memberDesc}
+          placeholder={authMember?.memberDesc ?? "no description"}
+          onChange={memberDescHandler}
+          className="w-full rounded-lg border px-4 py-2 h-28 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* SAVE */}
+      <div className="flex justify-end">
+        <Button variant="contained" onClick={handleSubmitButton}>
           Save
         </Button>
-      </Box>
+      </div>
     </Box>
   );
 }

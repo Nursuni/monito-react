@@ -1,6 +1,5 @@
 import React from "react";
 import TabPanel from "@mui/lab/TabPanel";
-import { Box, Button, Stack, Typography } from "@mui/material";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { retrieveProcessOrders } from "./selector";
@@ -17,7 +16,7 @@ import { sweetErrorHandling } from "../../../lib/sweetAlert";
 /** REDUX SELECTOR */
 const processOrdersRetriever = createSelector(
   retrieveProcessOrders,
-  (processOrders) => ({ processOrders })
+  (processOrders) => ({ processOrders }),
 );
 
 interface ProcessOrdersProps {
@@ -53,119 +52,127 @@ export default function ProcessOrders(props: ProcessOrdersProps) {
   };
   return (
     <TabPanel value={"2"}>
-      <Stack>
+      <div className="space-y-5">
         {processOrders?.map((order: Order) => (
-          <Box
+          <div
             key={order._id}
-            className={"order-main-box"}
-            display="flex"
-            flexDirection="column"
+            className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200"
           >
-            <Box
-              className={"order-box-scroll"}
-              display="flex"
-              flexDirection="column"
-            >
-              {order?.orderItems?.map((item: OrderItem) => {
-                const product: Product = order.productData.filter(
-                  (ele: Product) => item.productId === ele._id
-                )[0];
+            {/* Product List Section */}
+            <div className="p-5">
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
+                Order Items
+              </h3>
+              <div className="space-y-3 max-h-80 overflow-y-auto">
+                {order?.orderItems?.map((item: OrderItem) => {
+                  const product: Product = order.productData.filter(
+                    (ele: Product) => item.productId === ele._id,
+                  )[0];
 
-                const imagePath = `${serverApi}/${product.productImages[0]}`;
+                  const imagePath = `${serverApi}/${product.productImages[0]}`;
 
-                return (
-                  <Box
-                    key={item._id}
-                    className={"orders-name-price"}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                  >
-                    <img src={imagePath} className={"order-dish-img"} />
-
-                    <p className={"title-dish"}>{product.productName}</p>
-
-                    <Box
-                      className={"price-box"}
-                      display="flex"
-                      alignItems="center"
-                      gap={1}
+                  return (
+                    <div
+                      key={item._id}
+                      className="flex items-center gap-4 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
                     >
-                      <p>${item.itemPrice}</p>
-                      <img src={"/icons/close.svg"} />
-                      <p>{item.itemQuantity}</p>
-                      <img src={"/icons/pause.svg"} />
-                      <p style={{ marginLeft: "15px" }}>
-                        ${item.itemQuantity * item.itemPrice}
-                      </p>
-                    </Box>
-                  </Box>
-                );
-              })}
-            </Box>
+                      {/* Product Image */}
+                      <img
+                        src={imagePath}
+                        className="w-16 h-16 object-cover rounded-md flex-shrink-0"
+                        alt={product.productName}
+                      />
 
-            <Box className={"total-price-box"}>
-              <Box
-                display="flex"
-                alignItems="center"
-                gap={2}
-                ml={4}
-                className="box-total"
-              >
-                <Typography>Product cost:</Typography>
-                <Typography>
-                  ${order.orderTotal - order.orderDelivery}
-                </Typography>
+                      {/* Product Name */}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-gray-900 truncate">
+                          {product.productName}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          ${item.itemPrice} each
+                        </p>
+                      </div>
 
-                <img src="/icons/plus.svg" className="order-icon" />
+                      {/* Quantity & Price */}
+                      <div className="flex items-center gap-4 text-sm">
+                        <div className="text-center">
+                          <p className="text-gray-500 text-xs">Qty</p>
+                          <p className="font-semibold text-gray-900">
+                            {item.itemQuantity}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-gray-500 text-xs">Subtotal</p>
+                          <p className="font-bold text-gray-900">
+                            ${item.itemQuantity * item.itemPrice}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
-                <Typography>Delivery cost:</Typography>
-                <Typography>${order.orderDelivery}</Typography>
+            {/* Divider */}
+            <div className="border-t border-gray-200"></div>
 
-                <img src="/icons/pause.svg" className="order-icon" />
+            {/* Summary & Actions Section */}
+            <div className="bg-gray-50 p-5">
+              {/* Price Summary */}
+              <div className="space-y-2 mb-4">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Product Cost</span>
+                  <span className="font-medium text-gray-900">
+                    ${order.orderTotal - order.orderDelivery}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Delivery Fee</span>
+                  <span className="font-medium text-gray-900">
+                    ${order.orderDelivery}
+                  </span>
+                </div>
+                <div className="border-t border-gray-300 pt-2 mt-2">
+                  <div className="flex justify-between">
+                    <span className="font-semibold text-gray-900">Total</span>
+                    <span className="font-bold text-xl text-gray-900">
+                      ${order.orderTotal}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-                <Typography>Total:</Typography>
-                <Typography>${order.orderTotal}</Typography>
-                <p className={"data-comp"}>
+              {/* Date & Action Button */}
+              <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+                <span className="text-sm text-gray-500">
                   {moment().format("YY-MM-DD HH:mm")}
-                </p>
-              </Box>
-
-              <Button
-                value={order._id}
-                variant="contained"
-                className={"verify-button"}
-                onClick={finishOrderHandler}
-                sx={{
-                  borderRadius: "10px",
-                  mr: 2,
-                  backgroundColor: "#3A87CB",
-                  color: "#FFFFFF",
-                  "&:hover": {
-                    backgroundColor: "#2E6AB3",
-                  },
-                }}
-              >
-                Verify to Fulfil
-              </Button>
-            </Box>
-          </Box>
+                </span>
+                <button
+                  value={order._id}
+                  onClick={finishOrderHandler}
+                  className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-all shadow-sm"
+                >
+                  Verify to Fulfil
+                </button>
+              </div>
+            </div>
+          </div>
         ))}
 
+        {/* Empty State */}
         {!processOrders ||
           (processOrders.length === 0 && (
-            <Box
-              display={"flex"}
-              flexDirection={"row"}
-              justifyContent={"center"}
-            >
+            <div className="flex flex-col items-center justify-center py-12">
               <img
                 src={"/icons/noimage-list.svg"}
-                style={{ width: 300, height: 300 }}
+                className="w-48 h-48 opacity-40 mb-4"
+                alt="No orders"
               />
-            </Box>
+              <p className="text-gray-500 text-center">No orders in process</p>
+            </div>
           ))}
-      </Stack>
+      </div>
     </TabPanel>
   );
 }

@@ -27,5 +27,6 @@ export interface ProductInquiry {
   page: number;
   limit: number;
   productCollection?: ProductCollection;
+  petType?: PetType;
   search?: string;
 }

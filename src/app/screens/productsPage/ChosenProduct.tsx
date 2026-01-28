@@ -1,15 +1,12 @@
-import React, { useDebugValue, useEffect } from "react";
-import { Container, Stack, Box } from "@mui/material";
+import React, { useEffect } from "react";
+import { Container, Box, Stack } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import Divider from "../../components/divider";
 import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import "swiper/css";
-import "swiper/css/free-mode";
 import "swiper/css/navigation";
-import "swiper/css/thumbs";
-import { FreeMode, Navigation, Thumbs } from "swiper";
+import { Navigation } from "swiper";
 import { setChosenProduct, setAdmin } from "./slice";
 import { Product } from "../../../lib/types/product";
 import { createSelector, Dispatch } from "@reduxjs/toolkit";
@@ -26,7 +23,7 @@ interface ChosenProductProps {
   onAdd: (item: CartItem) => void;
 }
 
-/**REDUX SLICE & SELECTOR */
+/* Redux */
 const actionDispatch = (dispatch: Dispatch) => ({
   setChosenProduct: (data: Product) => dispatch(setChosenProduct(data)),
   setAdmin: (data: Member) => dispatch(setAdmin(data)),
@@ -34,137 +31,130 @@ const actionDispatch = (dispatch: Dispatch) => ({
 
 const chosenProductRetriever = createSelector(
   retrieveChosenProduct,
-  (chosenProduct) => ({
-    chosenProduct,
-  }),
+  (chosenProduct) => ({ chosenProduct }),
 );
-const adminRetriever = createSelector(retrieveAdmin, (admin) => ({
-  admin,
-}));
 
-export default function ChosenProduct(props: ChosenProductProps) {
-  const { onAdd } = props;
+const adminRetriever = createSelector(retrieveAdmin, (admin) => ({ admin }));
+
+export default function ChosenProduct({ onAdd }: ChosenProductProps) {
   const { productId } = useParams<{ productId: string }>();
   const { setAdmin, setChosenProduct } = actionDispatch(useDispatch());
   const { chosenProduct } = useSelector(chosenProductRetriever);
   const { admin } = useSelector(adminRetriever);
-  console.log("productid", productId);
-  useEffect(() => {
-    const product = new ProductService();
-    product
-      .getProduct(productId)
-      .then((data) => setChosenProduct(data))
-      .catch((err) => console.log(err));
 
-    const member = new MemberService();
-    member
-      .getAdmin()
-      .then((data) => setAdmin(data))
-      .catch((err) => console.log(err));
+  useEffect(() => {
+    new ProductService()
+      .getProduct(productId)
+      .then(setChosenProduct)
+      .catch(console.log);
+
+    new MemberService().getAdmin().then(setAdmin).catch(console.log);
   }, []);
 
   if (!chosenProduct) return null;
+
   return (
-    <div className="chosen-product bg-white min-h-screen py-8">
-      <Box className="text-center text-3xl font-bold mb-8 text-gray-800">
-        Product Detail
-      </Box>
-      <Container className="product-container">
-        <Stack className="chosen-product-slider bg-white rounded-2xl shadow-lg overflow-hidden p-6">
-          <Swiper
-            loop={true}
-            spaceBetween={10}
-            navigation={true}
-            modules={[FreeMode, Navigation, Thumbs]}
-            className="swiper-area rounded-xl"
-          >
-            {chosenProduct?.productImages.map((ele: string, index: number) => {
-              const imagePath = `${serverApi}/${ele}`;
-              return (
-                <SwiperSlide key={index}>
+    <div className="bg-gray-50 min-h-screen py-12">
+      <Container maxWidth="lg">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Images */}
+          <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+            <Swiper navigation modules={[Navigation]}>
+              {chosenProduct.productImages.map((img, i) => (
+                <SwiperSlide key={i}>
                   <img
-                    className="slider-image w-full h-full object-cover rounded-xl"
-                    src={imagePath}
+                    src={`${serverApi}/${img}`}
+                    className="w-full h-[420px] object-cover"
+                    alt=""
                   />
                 </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </Stack>
-        <Stack className="chosen-product-info">
-          <Box className="info-box bg-white rounded-2xl shadow-lg p-8 space-y-6">
-            <strong className="product-name block text-4xl font-bold text-gray-900">
-              {chosenProduct?.productName}
-            </strong>
-            <div className="space-y-2">
-              <span className="resto-name block text-lg font-semibold text-gray-700">
-                {admin?.memberNick}
-              </span>
-              <span className="resto-name block text-base text-gray-600">
-                {admin?.memberPhone}
-              </span>
+              ))}
+            </Swiper>
+          </div>
+
+          {/* Info */}
+          <div className="bg-white rounded-2xl border border-gray-200 p-8 space-y-7">
+            {/* Title */}
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 leading-snug">
+                {chosenProduct.productName}
+              </h1>
             </div>
-            <Box className="rating-box flex items-center gap-6 py-4">
-              <Rating
-                name="half-rating"
-                defaultValue={2.5}
-                precision={0.5}
-                size="large"
-              />
-              <div className="evaluation-box">
-                <div className="product-view flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-full">
-                  <RemoveRedEyeIcon
-                    sx={{ fontSize: "20px", color: "#6b7280" }}
-                  />
-                  <span className="text-gray-700 font-medium">
-                    {chosenProduct?.productViews}
-                  </span>
-                </div>
+
+            {/* Seller */}
+            <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl p-4">
+              <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
+                {admin?.memberNick?.charAt(0) || "M"}
               </div>
-            </Box>
-            <p className="product-desc text-gray-600 leading-relaxed text-base">
-              {chosenProduct?.productDesc
-                ? chosenProduct?.productDesc
-                : "No Description"}
-            </p>
-            <Divider height="1" width="100%" bg="#e5e7eb" />
-            <div className="product-price flex justify-between items-center text-2xl font-bold py-4">
-              <span className="text-gray-700">Price:</span>
-              <span className="text-green-600">
-                ${chosenProduct.productPrice}
-              </span>
+              <div>
+                <p className="font-semibold text-gray-800">
+                  {admin?.memberNick || "Monito Store"}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {admin?.memberPhone || "Contact seller"}
+                </p>
+              </div>
             </div>
-            <div className="button-box pt-4">
-              <Button
-                variant="contained"
-                fullWidth
-                sx={{
-                  backgroundColor: "#3b82f6",
-                  "&:hover": {
-                    backgroundColor: "#2563eb",
-                  },
-                  padding: "14px 28px",
-                  fontSize: "16px",
-                  fontWeight: 600,
-                  borderRadius: "12px",
-                  textTransform: "none",
-                  boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)",
-                }}
-                onClick={() =>
-                  onAdd({
-                    _id: chosenProduct._id,
-                    name: chosenProduct.productName,
-                    price: chosenProduct.productPrice,
-                    image: chosenProduct.productImages[0],
-                    quantity: 1,
-                  })
-                }
-              >
-                Add To Basket
-              </Button>
+
+            {/* Rating & Views */}
+            <div className="flex items-center gap-6">
+              <Rating value={4.5} readOnly />
+              <div className="flex items-center gap-2 text-gray-500">
+                <RemoveRedEyeIcon sx={{ fontSize: 18 }} />
+                <span className="text-sm font-medium">
+                  {chosenProduct.productViews} views
+                </span>
+              </div>
             </div>
-          </Box>
-        </Stack>
+
+            {/* Description */}
+            <div>
+              <h3 className="font-semibold text-gray-800 mb-1">Description</h3>
+              <p className="text-gray-600 leading-relaxed">
+                {chosenProduct.productDesc || "No description available."}
+              </p>
+            </div>
+
+            {/* Price */}
+            <div className="border-t pt-6 flex justify-between items-center">
+              <div>
+                <p className="text-sm text-gray-500">Price</p>
+                <p className="text-3xl font-bold text-green-600">
+                  ${chosenProduct.productPrice.toLocaleString()}
+                </p>
+              </div>
+              <span className="text-sm text-gray-400">Free shipping</span>
+            </div>
+
+            {/* Add to cart */}
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{
+                backgroundColor: "#2563eb",
+                padding: "14px",
+                fontSize: "16px",
+                fontWeight: 600,
+                borderRadius: "12px",
+                textTransform: "none",
+                "&:hover": {
+                  backgroundColor: "#1d4ed8",
+                },
+              }}
+              onClick={() =>
+                onAdd({
+                  _id: chosenProduct._id,
+                  name: chosenProduct.productName,
+                  price: chosenProduct.productPrice,
+                  image: chosenProduct.productImages[0],
+                  quantity: 1,
+                })
+              }
+            >
+              Add to cart
+            </Button>
+          </div>
+        </div>
       </Container>
     </div>
   );

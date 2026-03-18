@@ -49,6 +49,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
 
   return (
     <>
+    
       {/* TOP OFFER BAR */}
       <div className="top-offer">
         <p>
@@ -60,6 +61,8 @@ export default function HomeNavbar(props: HomeNavbarProps) {
           </span>
         </p>
       </div>
+
+      //TODO: SIgnup left somewhere
 
       {/* STICKY NAVIGATION - MOVED OUTSIDE CONTAINER */}
       <Box className="sticky-nav">

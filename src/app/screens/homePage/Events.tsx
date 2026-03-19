@@ -13,7 +13,6 @@ export default function Events() {
           <span className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
             Pet Events & Workshops
           </span>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-3 rounded-full"></div>
         </Box>
 
         <Swiper

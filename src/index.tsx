@@ -11,6 +11,7 @@ import theme from "./app/MaterialTheme";
 import { BrowserRouter as Router } from "react-router-dom";
 import ContextProvider from "./app/context/ContextProvider";
 import { SocketProvider } from "./app/context/SocketContext";
+import { CssVarsProvider } from "@mui/joy/styles";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);

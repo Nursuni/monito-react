@@ -1,6 +1,4 @@
-import { Box } from "@mui/material";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import Button from "@mui/material/Button";
 import { useGlobals } from "../../hooks/useGlobals";
 import { useState } from "react";
 import { MemberUpdateInput } from "../../../lib/types/member";
@@ -11,6 +9,34 @@ import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
+
+const f = "'Plus Jakarta Sans', sans-serif";
+
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  padding: "10px 14px",
+  border: "1.5px solid #E2E8F0",
+  borderRadius: 10,
+  fontSize: 13,
+  fontFamily: f,
+  fontWeight: 500,
+  color: "#0F172A",
+  outline: "none",
+  background: "white",
+  boxSizing: "border-box",
+  transition: "border-color 0.18s",
+};
+
+const labelStyle: React.CSSProperties = {
+  display: "block",
+  fontSize: 11,
+  fontWeight: 700,
+  color: "#64748B",
+  textTransform: "uppercase",
+  letterSpacing: "0.08em",
+  marginBottom: 5,
+  fontFamily: f,
+};
 
 export function Settings() {
   const { authMember, setAuthMember } = useGlobals();
@@ -31,18 +57,15 @@ export function Settings() {
     },
   );
 
-  /** HANDLERS (unchanged) */
-  const memberNickHandler = async (e: T) => {
+  const memberNickHandler = (e: T) => {
     memberUpdateInput.memberNick = e.target.value;
     setMemberUpdateInput({ ...memberUpdateInput });
   };
-
-  const memberPhoneHandler = async (e: T) => {
+  const memberPhoneHandler = (e: T) => {
     memberUpdateInput.memberPhone = e.target.value;
     setMemberUpdateInput({ ...memberUpdateInput });
   };
-
-  const memberDescHandler = async (e: T) => {
+  const memberDescHandler = (e: T) => {
     memberUpdateInput.memberDesc = e.target.value;
     setMemberUpdateInput({ ...memberUpdateInput });
   };
@@ -50,32 +73,26 @@ export function Settings() {
   const handleSubmitButton = async (): Promise<void> => {
     try {
       if (!authMember) throw new Error(Messages.error2);
-
       if (
-        memberUpdateInput.memberNick === "" ||
-        memberUpdateInput.memberPhone === "" ||
-        memberUpdateInput.memberAddress === "" ||
-        memberUpdateInput.memberDesc === ""
+        !memberUpdateInput.memberNick ||
+        !memberUpdateInput.memberPhone ||
+        !memberUpdateInput.memberAddress ||
+        !memberUpdateInput.memberDesc
       ) {
         throw new Error(Messages.error3);
       }
-
-      const member = new MemberService();
-      const result = await member.updateMember(memberUpdateInput);
+      const result = await new MemberService().updateMember(memberUpdateInput);
       setAuthMember(result);
-
       await sweetTopSmallSuccessAlert("Modified successfully!", 700);
     } catch (err) {
-      console.log(err);
       sweetErrorHandling(err).then();
     }
   };
 
   const handleImageViewer = (e: T) => {
     const file = e.target.files[0];
-    const validateImageTypes = ["image/jpg", "image/jpeg", "image/png"];
-
-    if (!validateImageTypes.includes(file.type)) {
+    const valid = ["image/jpg", "image/jpeg", "image/png"];
+    if (!valid.includes(file.type)) {
       sweetErrorHandling(Messages.error5).then();
     } else {
       memberUpdateInput.memberImage = file;
@@ -85,85 +102,164 @@ export function Settings() {
   };
 
   return (
-    <Box className="space-y-8">
-      {/* IMAGE */}
-      <div className="flex items-center gap-6">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 22,
+        fontFamily: f,
+      }}
+    >
+      {/* IMAGE UPLOAD */}
+      <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <img
           src={memberImage}
-          className="w-28 h-28 rounded-full object-cover border shadow"
+          style={{
+            width: 88,
+            height: 88,
+            borderRadius: "50%",
+            objectFit: "cover",
+            border: "3px solid #DBEAFE",
+            flexShrink: 0,
+          }}
         />
-
-        <div className="space-y-1">
-          <p className="font-medium text-gray-800">Upload image</p>
-          <p className="text-sm text-gray-500">JPG, JPEG, PNG formats only</p>
-          <Button component="label" onChange={handleImageViewer}>
-            <CloudDownloadIcon />
-            <input type="file" hidden />
-          </Button>
+        <div>
+          <p
+            style={{
+              fontWeight: 700,
+              color: "#0F172A",
+              margin: "0 0 3px",
+              fontSize: 14,
+              fontFamily: f,
+            }}
+          >
+            Profile Photo
+          </p>
+          <p
+            style={{
+              fontSize: 12,
+              color: "#64748B",
+              margin: "0 0 10px",
+              fontFamily: f,
+            }}
+          >
+            JPG, JPEG or PNG
+          </p>
+          <label
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "7px 16px",
+              borderRadius: 10,
+              border: "1.5px solid #E2E8F0",
+              background: "white",
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#64748B",
+              cursor: "pointer",
+              fontFamily: f,
+              transition: "all 0.18s",
+            }}
+          >
+            <CloudDownloadIcon style={{ fontSize: 16 }} />
+            Upload
+            <input type="file" hidden onChange={handleImageViewer} />
+          </label>
         </div>
       </div>
 
+      {/* Divider */}
+      <div style={{ height: 1, background: "#E2E8F0" }} />
+
       {/* USERNAME */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Username
-        </label>
+        <label style={labelStyle}>Username</label>
         <input
           type="text"
           value={memberUpdateInput.memberNick}
           placeholder={authMember?.memberNick}
           onChange={memberNickHandler}
-          className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          style={inputStyle}
+          onFocus={(e) => (e.target.style.borderColor = "#2563EB")}
+          onBlur={(e) => (e.target.style.borderColor = "#E2E8F0")}
         />
       </div>
 
       {/* PHONE + ADDRESS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Phone
-          </label>
+          <label style={labelStyle}>Phone</label>
           <input
             type="text"
             value={memberUpdateInput.memberPhone}
             placeholder={authMember?.memberPhone ?? "no phone"}
             onChange={memberPhoneHandler}
-            className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={inputStyle}
+            onFocus={(e) => (e.target.style.borderColor = "#2563EB")}
+            onBlur={(e) => (e.target.style.borderColor = "#E2E8F0")}
           />
         </div>
-
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Address
-          </label>
+          <label style={labelStyle}>Address</label>
           <input
             type="text"
             value={memberUpdateInput.memberAddress}
             placeholder={authMember?.memberAddress ?? "no address"}
-            className="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={inputStyle}
+            onFocus={(e) => (e.target.style.borderColor = "#2563EB")}
+            onBlur={(e) => (e.target.style.borderColor = "#E2E8F0")}
           />
         </div>
       </div>
 
       {/* DESCRIPTION */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Description
-        </label>
+        <label style={labelStyle}>Description</label>
         <textarea
           value={memberUpdateInput.memberDesc}
           placeholder={authMember?.memberDesc ?? "no description"}
           onChange={memberDescHandler}
-          className="w-full rounded-lg border px-4 py-2 h-28 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+          style={
+            {
+              ...inputStyle,
+              height: 100,
+              resize: "none",
+              lineHeight: 1.6,
+            } as React.CSSProperties
+          }
+          onFocus={(e) => (e.target.style.borderColor = "#2563EB")}
+          onBlur={(e) => (e.target.style.borderColor = "#E2E8F0")}
         />
       </div>
 
       {/* SAVE */}
-      <div className="flex justify-end">
-        <Button variant="contained" onClick={handleSubmitButton}>
-          Save
-        </Button>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <button
+          onClick={handleSubmitButton}
+          style={{
+            padding: "10px 28px",
+            borderRadius: 10,
+            border: "none",
+            background: "#2563EB",
+            color: "white",
+            fontWeight: 700,
+            fontSize: 13,
+            fontFamily: f,
+            cursor: "pointer",
+            boxShadow: "0 4px 12px rgba(37,99,235,0.28)",
+            transition: "background 0.18s",
+          }}
+          onMouseEnter={(e) =>
+            ((e.target as HTMLButtonElement).style.background = "#1D4ED8")
+          }
+          onMouseLeave={(e) =>
+            ((e.target as HTMLButtonElement).style.background = "#2563EB")
+          }
+        >
+          Save Changes
+        </button>
       </div>
-    </Box>
+    </div>
   );
 }

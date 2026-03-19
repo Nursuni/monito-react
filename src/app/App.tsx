@@ -120,7 +120,7 @@ function App() {
           <AboutPage />
         </Route>
         <Route path="/">
-          <HomePage />
+          <HomePage onAdd={onAdd} />
         </Route>
       </Switch>
       <OfferPopup />

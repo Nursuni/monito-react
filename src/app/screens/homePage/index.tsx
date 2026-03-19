@@ -11,47 +11,38 @@ import { Product } from "../../../lib/types/product";
 import ProductService from "../../services/ProductService";
 import MemberService from "../../services/MemberService";
 import { Member } from "../../../lib/types/member";
-
 import NewProducts from "./NewProducts";
 import PopularProducts from "./PopularProducts";
-
 import MarqueeLogos from "../productsPage/Trusted-Brand";
 import HeroPetShop from "./HeroPetShop";
+import Reviews from "./Reviews";
+import { CartItem } from "../../../lib/types/search";
 
-/**REDUX SLICE & SELECTOR */
 const actionDispatch = (dispatch: Dispatch) => ({
   setPopularProducts: (data: Product[]) => dispatch(setPopularProducts(data)),
   setNewProducts: (data: Product[]) => dispatch(setNewProducts(data)),
   setTopUsers: (data: Member[]) => dispatch(setTopUsers(data)),
 });
 
-export default function HomePage() {
+interface HomePageProps {
+  onAdd: (item: CartItem) => void;
+}
+
+export default function HomePage({ onAdd }: HomePageProps) {
   const { setPopularProducts, setNewProducts, setTopUsers } =
     actionDispatch(useDispatch());
 
   useEffect(() => {
-    //Backend server data request => Data
     const product = new ProductService();
     product
-      .getProducts({
-        page: 1,
-        limit: 4,
-        order: "productsViews",
-      })
-      .then((data) => {
-        setPopularProducts(data);
-      })
+      .getProducts({ page: 1, limit: 4, order: "productsViews" })
+      .then((data) => setPopularProducts(data))
       .catch((err) => console.log("Err, popularProducts", err));
 
     product
-      .getProducts({
-        page: 1,
-        limit: 4,
-        order: "createdAt",
-        // productCollection: ProductCollection.product,
-      })
+      .getProducts({ page: 1, limit: 4, order: "createdAt" })
       .then((data) => setNewProducts(data))
-      .catch((err) => console.log("Err, popularProducts", err));
+      .catch((err) => console.log("Err, newProducts", err));
 
     const member = new MemberService();
     member
@@ -62,12 +53,13 @@ export default function HomePage() {
 
   return (
     <div className="homepage">
-      <PopularProducts />
+      <PopularProducts onAdd={onAdd} />
       <HeroPetShop />
       <MarqueeLogos />
-      <NewProducts />
+      <NewProducts onAdd={onAdd} />
       <Advertisement />
       <ActiveUsers />
+      <Reviews />
       <Statistics />
       <Events />
     </div>

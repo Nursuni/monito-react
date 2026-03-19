@@ -62,6 +62,8 @@ const Styles = () => (
     .au-grid {
       display: flex;
       gap: 20px;
+        justify-content: center; 
+  flex-wrap: wrap;   
       overflow-x: auto;
       padding-bottom: 12px;
       scroll-behavior: smooth;

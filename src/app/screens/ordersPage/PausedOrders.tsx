@@ -11,7 +11,6 @@ import { OrderStatus } from "../../../lib/enums/order.enum";
 import { useGlobals } from "../../hooks/useGlobals";
 import OrderService from "../../services/OrderService";
 
-/** REDUX SELECTOR */
 const pausedOrdersRetriever = createSelector(
   retrievePausedOrders,
   (pausedOrders) => ({ pausedOrders }),
@@ -21,30 +20,25 @@ interface PausedOrdersProps {
   setValue: (input: string) => void;
 }
 
-export default function PausedOrders(props: PausedOrdersProps) {
-  const { setValue } = props;
+const f = "'Plus Jakarta Sans', sans-serif";
+
+export default function PausedOrders({ setValue }: PausedOrdersProps) {
   const { authMember, orderBuilder, setOrderBuilder } = useGlobals();
   const { pausedOrders } = useSelector(pausedOrdersRetriever);
 
-  /**HANDLERS */
   const deleteOrderHandler = async (e: T) => {
     try {
       if (!authMember) throw new Error(Messages.error2);
       const orderId = e.target.value;
       const input: OrderUpdateInput = {
-        orderId: orderId,
+        orderId,
         orderStatus: OrderStatus.DELETE,
       };
-
-      const confirmation = window.confirm("Do you want to delete the order?");
-      if (confirmation) {
-        const order = new OrderService();
-        await order.updateOrder(input);
+      if (window.confirm("Do you want to delete the order?")) {
+        await new OrderService().updateOrder(input);
         setOrderBuilder(new Date());
-        console.log("=========GOOOOOOOD:", orderBuilder);
       }
     } catch (err) {
-      console.log(err);
       sweetErrorHandling(err).then();
     }
   };
@@ -52,83 +46,171 @@ export default function PausedOrders(props: PausedOrdersProps) {
   const processOrderHandler = async (e: T) => {
     try {
       if (!authMember) throw new Error(Messages.error2);
-      //PAYMENT PROCESS
       const orderId = e.target.value;
       const input: OrderUpdateInput = {
-        orderId: orderId,
+        orderId,
         orderStatus: OrderStatus.PROCESS,
       };
-
-      const confirmation = window.confirm(
-        "Do you want to proceed with payment?",
-      );
-      if (confirmation) {
-        const order = new OrderService();
-        await order.updateOrder(input);
-        // => PROCESS ORDER
+      if (window.confirm("Do you want to proceed with payment?")) {
+        await new OrderService().updateOrder(input);
         setValue("2");
         setOrderBuilder(new Date());
-        console.log("orderBuilder:", orderBuilder);
       }
     } catch (err) {
-      console.log(err);
       sweetErrorHandling(err).then();
     }
   };
+
   return (
-    <TabPanel value={"1"}>
-      <div className="space-y-5">
+    <TabPanel value={"1"} style={{ padding: 0 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+          fontFamily: f,
+        }}
+      >
         {pausedOrders?.map((order: Order) => (
           <div
             key={order._id}
-            className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200"
+            style={{
+              background: "white",
+              borderRadius: 16,
+              border: "1.5px solid #E2E8F0",
+              boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+              overflow: "hidden",
+              fontFamily: f,
+            }}
           >
-            {/* Product List Section */}
-            <div className="p-5">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
+            {/* Items */}
+            <div style={{ padding: "20px 20px 16px" }}>
+              <p
+                style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  color: "#64748B",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.12em",
+                  margin: "0 0 14px",
+                  fontFamily: f,
+                }}
+              >
                 Order Items
-              </h3>
-              <div className="space-y-3 max-h-80 overflow-y-auto">
+              </p>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 10,
+                  maxHeight: 320,
+                  overflowY: "auto",
+                }}
+              >
                 {order?.orderItems?.map((item: OrderItem) => {
                   const product = order.productData.filter(
                     (ele: Product) => ele._id === item.productId,
                   )[0];
-
-                  const imagePath = `${serverApi}/${product.productImages[0]}`;
-
                   return (
                     <div
                       key={item._id}
-                      className="flex items-center gap-4 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 14,
+                        padding: "10px 12px",
+                        borderRadius: 12,
+                        background: "#F8FAFC",
+                        fontFamily: f,
+                      }}
                     >
-                      {/* Product Image */}
                       <img
-                        src={imagePath}
-                        className="w-16 h-16 object-cover rounded-md flex-shrink-0"
+                        src={`${serverApi}/${product.productImages[0]}`}
+                        style={{
+                          width: 60,
+                          height: 60,
+                          objectFit: "cover",
+                          borderRadius: 10,
+                          flexShrink: 0,
+                        }}
                         alt={product.productName}
                       />
-
-                      {/* Product Name */}
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-gray-900 truncate">
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p
+                          style={{
+                            fontWeight: 600,
+                            color: "#0F172A",
+                            margin: "0 0 3px",
+                            fontSize: 14,
+                            fontFamily: f,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
                           {product.productName}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p
+                          style={{
+                            fontSize: 12,
+                            color: "#64748B",
+                            margin: 0,
+                            fontFamily: f,
+                          }}
+                        >
                           ${item.itemPrice} each
                         </p>
                       </div>
-
-                      {/* Quantity & Price */}
-                      <div className="flex items-center gap-4 text-sm">
-                        <div className="text-center">
-                          <p className="text-gray-500 text-xs">Qty</p>
-                          <p className="font-semibold text-gray-900">
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: 16,
+                          fontSize: 13,
+                          textAlign: "center",
+                          fontFamily: f,
+                        }}
+                      >
+                        <div>
+                          <p
+                            style={{
+                              fontSize: 11,
+                              color: "#64748B",
+                              margin: "0 0 2px",
+                              fontFamily: f,
+                            }}
+                          >
+                            Qty
+                          </p>
+                          <p
+                            style={{
+                              fontWeight: 700,
+                              color: "#0F172A",
+                              margin: 0,
+                              fontFamily: f,
+                            }}
+                          >
                             {item.itemQuantity}
                           </p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-gray-500 text-xs">Subtotal</p>
-                          <p className="font-bold text-gray-900">
+                        <div style={{ textAlign: "right" }}>
+                          <p
+                            style={{
+                              fontSize: 11,
+                              color: "#64748B",
+                              margin: "0 0 2px",
+                              fontFamily: f,
+                            }}
+                          >
+                            Subtotal
+                          </p>
+                          <p
+                            style={{
+                              fontWeight: 700,
+                              color: "#0F172A",
+                              margin: 0,
+                              fontFamily: f,
+                            }}
+                          >
                             ${item.itemQuantity * item.itemPrice}
                           </p>
                         </div>
@@ -139,48 +221,119 @@ export default function PausedOrders(props: PausedOrdersProps) {
               </div>
             </div>
 
-            {/* Divider */}
-            <div className="border-t border-gray-200"></div>
-
-            {/* Summary & Actions Section */}
-            <div className="bg-gray-50 p-5">
-              {/* Price Summary */}
-              <div className="space-y-2 mb-4">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Product Cost</span>
-                  <span className="font-medium text-gray-900">
+            {/* Summary */}
+            <div
+              style={{
+                background: "#F8FAFC",
+                padding: "16px 20px",
+                borderTop: "1px solid #E2E8F0",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8,
+                  marginBottom: 14,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: 13,
+                    fontFamily: f,
+                  }}
+                >
+                  <span style={{ color: "#64748B", fontFamily: f }}>
+                    Product Cost
+                  </span>
+                  <span
+                    style={{ fontWeight: 600, color: "#0F172A", fontFamily: f }}
+                  >
                     ${order.orderTotal - order.orderDelivery}
                   </span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Delivery Fee</span>
-                  <span className="font-medium text-gray-900">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: 13,
+                    fontFamily: f,
+                  }}
+                >
+                  <span style={{ color: "#64748B", fontFamily: f }}>
+                    Delivery Fee
+                  </span>
+                  <span
+                    style={{ fontWeight: 600, color: "#0F172A", fontFamily: f }}
+                  >
                     ${order.orderDelivery}
                   </span>
                 </div>
-                <div className="border-t border-gray-300 pt-2 mt-2">
-                  <div className="flex justify-between">
-                    <span className="font-semibold text-gray-900">Total</span>
-                    <span className="font-bold text-xl text-gray-900">
-                      ${order.orderTotal}
-                    </span>
-                  </div>
+                <div
+                  style={{
+                    borderTop: "1px solid #E2E8F0",
+                    paddingTop: 10,
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <span
+                    style={{ fontWeight: 700, color: "#0F172A", fontFamily: f }}
+                  >
+                    Total
+                  </span>
+                  <span
+                    style={{
+                      fontWeight: 800,
+                      fontSize: 18,
+                      color: "#2563EB",
+                      fontFamily: f,
+                    }}
+                  >
+                    ${order.orderTotal}
+                  </span>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex gap-3">
+              {/* Actions */}
+              <div style={{ display: "flex", gap: 10 }}>
                 <button
                   value={order._id}
                   onClick={deleteOrderHandler}
-                  className="flex-1 px-4 py-2.5 bg-white border-2 border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-100 hover:border-gray-400 transition-all"
+                  style={{
+                    flex: 1,
+                    padding: "10px 16px",
+                    borderRadius: 10,
+                    border: "1.5px solid #E2E8F0",
+                    background: "white",
+                    color: "#64748B",
+                    fontWeight: 700,
+                    fontSize: 13,
+                    cursor: "pointer",
+                    fontFamily: f,
+                    transition: "all 0.18s",
+                  }}
                 >
                   Cancel
                 </button>
                 <button
                   value={order._id}
                   onClick={processOrderHandler}
-                  className="flex-1 px-4 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-all shadow-sm"
+                  style={{
+                    flex: 1,
+                    padding: "10px 16px",
+                    borderRadius: 10,
+                    border: "none",
+                    background: "#2563EB",
+                    color: "white",
+                    fontWeight: 700,
+                    fontSize: 13,
+                    cursor: "pointer",
+                    fontFamily: f,
+                    boxShadow: "0 4px 12px rgba(37,99,235,0.28)",
+                  }}
                 >
                   Proceed to Payment
                 </button>
@@ -189,20 +342,31 @@ export default function PausedOrders(props: PausedOrdersProps) {
           </div>
         ))}
 
-        {/* Empty State */}
-        {!pausedOrders ||
-          (pausedOrders.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-12">
-              <img
-                src={"/icons/noimage-list.svg"}
-                className="w-48 h-48 opacity-40 mb-4"
-                alt="No orders"
-              />
-              <p className="text-gray-500 text-center">
-                No paused orders found
-              </p>
-            </div>
-          ))}
+        {(!pausedOrders || pausedOrders.length === 0) && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: "48px 0",
+              fontFamily: f,
+            }}
+          >
+            <img
+              src="/icons/noimage-list.svg"
+              style={{
+                width: 160,
+                height: 160,
+                opacity: 0.35,
+                marginBottom: 16,
+              }}
+              alt="No orders"
+            />
+            <p style={{ color: "#64748B", fontFamily: f, fontSize: 14 }}>
+              No paused orders found
+            </p>
+          </div>
+        )}
       </div>
     </TabPanel>
   );

@@ -1,4 +1,129 @@
 import React from "react";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+
+const Styles = () => (
+  <style>{`
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    .ss-root, .ss-root * {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+      box-sizing: border-box;
+    }
+    .ss-root {
+      --blue-50:  #EFF6FF;
+      --blue-100: #DBEAFE;
+      --blue-200: #BFDBFE;
+      --blue-400: #60A5FA;
+      --blue-500: #3B82F6;
+      --blue-600: #2563EB;
+      --blue-700: #1D4ED8;
+      --ink:      #0F172A;
+      --muted:    #64748B;
+      --border:   #E2E8F0;
+    }
+
+    @keyframes ss-fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes marqueeScroll {
+      0%   { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ss-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      animation: ss-fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .ss-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blue-600);
+      margin-bottom: 8px;
+    }
+    .ss-eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue-600);
+    }
+    .ss-heading {
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+
+    .ss-view-all {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 20px;
+      border-radius: 100px;
+      border: 2px solid var(--border);
+      background: white;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .ss-view-all:hover {
+      border-color: var(--blue-500);
+      color: var(--blue-600);
+      background: var(--blue-50);
+      transform: translateY(-1px);
+    }
+
+    /* Marquee */
+    .ss-marquee-wrap {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      select-none: none;
+      padding: 8px 0;
+    }
+    .ss-fade-left {
+      position: absolute; left: 0; top: 0; height: 100%; width: 80px;
+      background: linear-gradient(to right, white, transparent);
+      z-index: 10; pointer-events: none;
+    }
+    .ss-fade-right {
+      position: absolute; right: 0; top: 0; height: 100%; width: 80px;
+      background: linear-gradient(to left, white, transparent);
+      z-index: 10; pointer-events: none;
+    }
+    .ss-marquee-inner {
+      display: flex;
+      min-width: 200%;
+      will-change: transform;
+      animation: marqueeScroll 15s linear infinite;
+    }
+    .ss-logo-track {
+      display: flex;
+      align-items: center;
+    }
+    .ss-logo {
+      height: 64px;
+      object-fit: contain;
+      margin: 0 24px;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .ss-logo:hover { opacity: 1; }
+  `}</style>
+);
 
 const MarqueeLogos = () => {
   const companyLogos = [
@@ -13,102 +138,51 @@ const MarqueeLogos = () => {
   ];
 
   return (
-    <div className="overflow-hidden w-full relative max-w-5xl mx-auto select-none h-auto py-2 mt-4">
-      {/* Left Gradient */}
-      <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent" />
-      {/* Logos */}
-      <div
-        className="marquee-inner flex will-change-transform min-w-[200%]"
-        style={{ animationDuration: "15s" }}
-      >
-        <div className="flex items-end">
-          {[...companyLogos, ...companyLogos].map((company, index) => (
-            <img
-              key={index}
-              src={`/img/logos/brand_${company}.svg`}
-              alt={company}
-              className="h-16 md:h-20 object-contain mx-6"
-              draggable={false}
-            />
-          ))}
-        </div>
+    <div className="ss-marquee-wrap">
+      <div className="ss-fade-left" />
+      <div className="ss-marquee-inner">
+        {[0, 1].map((pass) => (
+          <div key={pass} className="ss-logo-track">
+            {companyLogos.map((company, i) => (
+              <img
+                key={`${pass}-${i}`}
+                src={`/img/logos/brand_${company}.svg`}
+                alt={company}
+                className="ss-logo"
+                draggable={false}
+              />
+            ))}
+          </div>
+        ))}
       </div>
-
-      {/* Right Gradient */}
-      <div className="absolute right-0 top-0 h-full w-20 md:w-40 z-10 pointer-events-none bg-gradient-to-l from-white to-transparent" />
-
-      <style>{`
-        @keyframes marqueeScroll {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
-        }
-        .marquee-inner {
-          animation: marqueeScroll 15s linear infinite;
-        }
-      `}</style>
+      <div className="ss-fade-right" />
     </div>
   );
 };
 
 const SellersSection = () => {
   return (
-    <div className="bg-white py-3">
-      <div className="max-w-5xl mx-auto flex justify-between items-center">
-        {/* Left part */}
-        <div className="flex items-center gap-2">
-          <p
-            style={{
-              color: "#000",
-              fontFamily: "SVN-Gilroy",
-              fontSize: "16px",
-              fontStyle: "normal",
-              fontWeight: 500,
-              lineHeight: "31px",
-              margin: 0,
-            }}
-          >
-            Proud to be part of
-          </p>
-          <h2
-            style={{
-              color: "var(--Primary-Color-Dark-Blue, #003459)",
-              fontFamily: "SVN-Gilroy",
-              fontSize: "24px",
-              fontStyle: "normal",
-              fontWeight: 700,
-              lineHeight: "36px",
-              textTransform: "capitalize",
-              margin: 1,
-            }}
-          >
-            Pet Sellers
-          </h2>
+    <div className="ss-root" style={{ padding: "72px 24px" }}>
+      <Styles />
+      <div style={{ maxWidth: 1300, margin: "0 auto" }}>
+        {/* Header — matches np-header */}
+        <div className="ss-header">
+          <div>
+            <div className="ss-eyebrow">
+              <span className="ss-eyebrow-dot" />
+              Proud to be part of
+            </div>
+            <h2 className="ss-heading">Pet Sellers</h2>
+          </div>
+
+          <a href="/sellers" className="ss-view-all">
+            View all our sellers <ArrowForwardIcon style={{ fontSize: 15 }} />
+          </a>
         </div>
 
-        {/* Right part */}
-        <a
-          href="/sellers"
-          style={{
-            display: "flex",
-            padding: "12px 28px",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "8px",
-            borderRadius: "57px",
-            border: "1.5px solid var(--Primary-Color-Dark-Blue, #003459)",
-            textDecoration: "none",
-            color: "var(--Primary-Color-Dark-Blue, #003459)",
-            fontFamily: "SVN-Gilroy",
-            fontWeight: 500,
-            whiteSpace: "nowrap",
-          }}
-        >
-          View all our sellers
-        </a>
+        {/* Marquee */}
+        <MarqueeLogos />
       </div>
-
-      {/* Marquee Logos */}
-      <MarqueeLogos />
     </div>
   );
 };

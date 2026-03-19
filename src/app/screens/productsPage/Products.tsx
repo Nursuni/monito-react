@@ -45,7 +45,6 @@ const productsRetriever = createSelector(retrieveProducts, (products) => ({
   products,
 }));
 
-/* ─── collapsible sidebar section ─── */
 function FilterSection({
   title,
   children,
@@ -65,7 +64,6 @@ function FilterSection({
   );
 }
 
-/* ─── tilt card ─── */
 function TiltCard({
   children,
   delay,
@@ -111,11 +109,11 @@ export default function Products(props: ProductsProps) {
     page: 1,
     limit: 8,
     order: "createdAt",
-    productCollection: ProductCollection.FOOD,
+    productCollection: undefined, // ← no default category
     search: "",
   });
   const [searchText, setSearchText] = useState("");
-  const [selectedPetType, setSelectedPetType] = useState<PetType>(PetType.DOG);
+  const [selectedPetType, setSelectedPetType] = useState<PetType | null>(null); // ← no default pet type
   const [addedId, setAddedId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -125,29 +123,39 @@ export default function Products(props: ProductsProps) {
       .catch(console.log);
   }, [productSearch]);
 
-  const searchCollectionHandler = (c: ProductCollection) =>
-    setProductSearch({ ...productSearch, page: 1, productCollection: c });
+  const searchCollectionHandler = (c: ProductCollection | null) =>
+    setProductSearch({
+      ...productSearch,
+      page: 1,
+      productCollection: c ?? undefined,
+    });
+
   const searchOrderHandler = (o: string) =>
     setProductSearch({ ...productSearch, page: 1, order: o });
+
   const searchProductHandler = () =>
     setProductSearch({ ...productSearch, page: 1, search: searchText });
-  const petTypeHandler = (t: PetType) => {
+
+  const petTypeHandler = (t: PetType | null) => {
     setSelectedPetType(t);
-    setProductSearch({ ...productSearch, page: 1, search: t });
+    setProductSearch({ ...productSearch, page: 1, search: t ?? "" });
   };
+
   const paginationHandler = (_: ChangeEvent<any>, v: number) =>
     setProductSearch({ ...productSearch, page: v });
+
   const clearAllFiltersHandler = () => {
     setSearchText("");
-    setSelectedPetType(PetType.DOG);
+    setSelectedPetType(null);
     setProductSearch({
       page: 1,
       limit: 8,
       order: "createdAt",
-      productCollection: ProductCollection.FOOD,
+      productCollection: undefined,
       search: "",
     });
   };
+
   const handleAdd = (e: React.MouseEvent, p: Product) => {
     e.stopPropagation();
     setAddedId(p._id);
@@ -213,6 +221,21 @@ export default function Products(props: ProductsProps) {
               {/* Pet type */}
               <FilterSection title="Pet Type">
                 <div className="pr-pet-list">
+                  {/* All option */}
+                  <label className="pr-check-row">
+                    <span
+                      className={`pr-check-box${selectedPetType === null ? " checked" : ""}`}
+                      onClick={() => petTypeHandler(null)}
+                    />
+                    <span className="pr-check-emoji">🐾</span>
+                    <span
+                      className="pr-check-label"
+                      onClick={() => petTypeHandler(null)}
+                    >
+                      All
+                    </span>
+                  </label>
+
                   {Object.values(PetType).map((type) => (
                     <label key={type} className="pr-check-row">
                       <span
@@ -234,6 +257,20 @@ export default function Products(props: ProductsProps) {
               {/* Category */}
               <FilterSection title="Category">
                 <div className="pr-cat-list">
+                  {/* All option */}
+                  <label className="pr-check-row">
+                    <span
+                      className={`pr-check-box${productSearch.productCollection == null ? " checked" : ""}`}
+                      onClick={() => searchCollectionHandler(null)}
+                    />
+                    <span
+                      className="pr-check-label"
+                      onClick={() => searchCollectionHandler(null)}
+                    >
+                      All
+                    </span>
+                  </label>
+
                   {Object.values(ProductCollection).map((cat) => (
                     <label key={cat} className="pr-check-row">
                       <span

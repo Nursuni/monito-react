@@ -105,12 +105,11 @@ const Styles = () => (
     }
 
     /* ── Track ── */
-    .np-track {
-      display: flex; gap: 20px;
-      overflow-x: auto; padding-bottom: 12px;
-      scroll-behavior: smooth; scrollbar-width: none;
-      height: 340px; align-items: stretch;
-    }
+.np-track {
+  display: flex; gap: 20px;
+  overflow-x: auto; padding-bottom: 12px;
+  scroll-behavior: smooth; scrollbar-width: none;
+}
     .np-track::-webkit-scrollbar { display: none; }
 
     /* ── Card ── */
@@ -304,7 +303,7 @@ export default function NewProducts() {
   return (
     <div className="np-root" style={{ padding: "72px 24px" }}>
       <Styles />
-      <div style={{ maxWidth: 1340, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1300, margin: "0 auto" }}>
         {/* Header */}
         <div className="np-header">
           <div>

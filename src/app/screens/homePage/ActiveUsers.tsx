@@ -58,16 +58,20 @@ const Styles = () => (
       color: var(--ink); letter-spacing: -0.03em; margin: 0;
     }
 
-    /* Grid */
+    /* Track */
     .au-grid {
       display: flex;
-      flex-wrap: wrap;
       gap: 20px;
-      justify-content: center;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
     }
+    .au-grid::-webkit-scrollbar { display: none; }
 
     /* Member card */
     .au-card {
+      flex-shrink: 0;
       width: 220px;
       background: white;
       border: 2px solid var(--border);
@@ -189,6 +193,7 @@ export default function ActiveUsers() {
           </div>
         ) : (
           <div className="au-empty">
+            <div className="au-empty-icon">🐾</div>
             <p className="au-empty-title">No active members yet</p>
             <p className="au-empty-sub">Check back soon!</p>
           </div>

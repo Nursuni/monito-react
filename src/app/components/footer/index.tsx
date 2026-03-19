@@ -43,7 +43,7 @@ const Styles = () => (
       animation: ft-fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) both;
     }
     .ft-inner {
-      max-width: 1340px;
+      max-width: 1300px;
       margin: 0 auto;
     }
 

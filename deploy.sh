@@ -1,19 +1,12 @@
 #!/bin/bash
 
-#PRODUCTION
-#git reset --hard
-#git checkout master
-#git pull origin master
+# PRODUCTION
+git reset --hard
+git checkout master
+git pull origin master
 
-npm i
-npm run build
-pm2 start process.config.js --env production
-
-#DEVELOPMENT
-#git reset --hard
-#git checkout develop
-#git pull origin develop
-
-#npm i 
-#pm2 start process/confis.js --env development
-#pm2 start "npm run start:dev" --name=MONITO
+npm i yarn -g
+pnpm global add serve
+pnpm 
+pnpm  run build
+pm2 start "pnpm  run start:prod" --name=MONITO-REACT
